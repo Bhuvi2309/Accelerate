@@ -3,11 +3,8 @@ import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'show_room_map_model.dart';
 export 'show_room_map_model.dart';
@@ -64,7 +61,7 @@ class _ShowRoomMapWidgetState extends State<ShowRoomMapWidget> {
           child: wrapWithModel(
             model: _model.drawerUIModel,
             updateCallback: () => setState(() {}),
-            child: DrawerUIWidget(),
+            child: const DrawerUIWidget(),
           ),
         ),
         appBar: AppBar(
@@ -94,7 +91,7 @@ class _ShowRoomMapWidgetState extends State<ShowRoomMapWidget> {
                   color: FlutterFlowTheme.of(context).primaryBtnText,
                 ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: false,
           elevation: 2.0,
         ),

@@ -7,8 +7,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -91,11 +89,11 @@ class _ContactsListCopyWidgetState extends State<ContactsListCopyWidget> {
           child: wrapWithModel(
             model: _model.drawerUIModel,
             updateCallback: () => setState(() {}),
-            child: DrawerUIWidget(),
+            child: const DrawerUIWidget(),
           ),
         ),
         appBar: AppBar(
-          backgroundColor: Color(0xFFCC1F20),
+          backgroundColor: const Color(0xFFCC1F20),
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: FlutterFlowTheme.of(context).primary,
@@ -121,18 +119,18 @@ class _ContactsListCopyWidgetState extends State<ContactsListCopyWidget> {
                   color: FlutterFlowTheme.of(context).primaryBtnText,
                 ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: false,
           elevation: 2.0,
         ),
         body: SafeArea(
           top: true,
           child: Container(
-            constraints: BoxConstraints(
+            constraints: const BoxConstraints(
               minWidth: double.infinity,
               minHeight: double.infinity,
             ),
-            decoration: BoxDecoration(),
+            decoration: const BoxDecoration(),
             child: Stack(
               children: [
                 if (FFAppState().isLoading == false)
@@ -145,7 +143,7 @@ class _ContactsListCopyWidgetState extends State<ContactsListCopyWidget> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 16.0),
                                 child: Builder(
                                   builder: (context) {
@@ -163,7 +161,7 @@ class _ContactsListCopyWidgetState extends State<ContactsListCopyWidget> {
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
                                             Padding(
-                                              padding: EdgeInsets.all(5.0),
+                                              padding: const EdgeInsets.all(5.0),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: [
@@ -234,13 +232,13 @@ class _ContactsListCopyWidgetState extends State<ContactsListCopyWidget> {
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 8.0, 0.0),
                                                     child: Container(
                                                       width: 50.0,
                                                       height: 50.0,
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                         shape: BoxShape.circle,
                                                       ),
                                                       child: FFButtonWidget(
@@ -342,14 +340,14 @@ class _ContactsListCopyWidgetState extends State<ContactsListCopyWidget> {
                                                                   0.2,
                                                           height: 40.0,
                                                           padding:
-                                                              EdgeInsetsDirectional
+                                                              const EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       0.0,
                                                                       0.0,
                                                                       0.0),
                                                           iconPadding:
-                                                              EdgeInsets.all(
+                                                              const EdgeInsets.all(
                                                                   0.0),
                                                           color: Colors.white,
                                                           textStyle:
@@ -366,12 +364,12 @@ class _ContactsListCopyWidgetState extends State<ContactsListCopyWidget> {
                                                                             .bold,
                                                                   ),
                                                           borderSide:
-                                                              BorderSide(
+                                                              const BorderSide(
                                                             color: Colors
                                                                 .transparent,
                                                           ),
                                                           borderRadius:
-                                                              BorderRadius.only(
+                                                              const BorderRadius.only(
                                                             bottomLeft:
                                                                 Radius.circular(
                                                                     20.0),
@@ -406,7 +404,7 @@ class _ContactsListCopyWidgetState extends State<ContactsListCopyWidget> {
                                 ),
                               ),
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 16.0),
                                 child: FFButtonWidget(
                                   onPressed: () async {
@@ -432,9 +430,9 @@ class _ContactsListCopyWidgetState extends State<ContactsListCopyWidget> {
                                   text: 'Email Contact List',
                                   options: FFButtonOptions(
                                     width: double.infinity,
-                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 24.0, 0.0, 24.0),
-                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
                                     color: FlutterFlowTheme.of(context).primary,
                                     textStyle: FlutterFlowTheme.of(context)
@@ -445,7 +443,7 @@ class _ContactsListCopyWidgetState extends State<ContactsListCopyWidget> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                     elevation: 3.0,
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                       color: Colors.transparent,
                                       width: 1.0,
                                     ),
@@ -461,7 +459,7 @@ class _ContactsListCopyWidgetState extends State<ContactsListCopyWidget> {
                   ),
                 if (FFAppState().isLoading == true)
                   Align(
-                    alignment: AlignmentDirectional(0.0, 0.0),
+                    alignment: const AlignmentDirectional(0.0, 0.0),
                     child: Container(
                       width: 100.0,
                       height: 100.0,
@@ -469,7 +467,7 @@ class _ContactsListCopyWidgetState extends State<ContactsListCopyWidget> {
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
                       child: Align(
-                        alignment: AlignmentDirectional(0.0, 0.0),
+                        alignment: const AlignmentDirectional(0.0, 0.0),
                         child: Lottie.network(
                           'https://assets2.lottiefiles.com/packages/lf20_aZTdD5.json',
                           width: 407.0,

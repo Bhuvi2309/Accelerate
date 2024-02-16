@@ -71,12 +71,3 @@ Future<void> storeAttendeeList(String attendeeID) async {
     // Handle database query errors
   }
 }
-
-Future<void> getAttendeeFields() async {
-  for (int i = 0; i < attendeeList.length; i++) {
-    String firstName = attendeeList[i]['FirstName'];
-    String lastName = attendeeList[i]['LastName'];
-    // Access other values as needed
-    print('First Name: $firstName, Last Name: $lastName');
-  }
-}

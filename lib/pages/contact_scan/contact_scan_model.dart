@@ -1,16 +1,7 @@
-import '/components/add_note_alert/add_note_alert_widget.dart';
 import '/components/drawer_u_i/drawer_u_i_widget.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import '/custom_code/actions/index.dart' as actions;
 import 'contact_scan_widget.dart' show ContactScanWidget;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 
 class ContactScanModel extends FlutterFlowModel<ContactScanWidget> {
   ///  State fields for stateful widgets in this page.
@@ -24,10 +15,12 @@ class ContactScanModel extends FlutterFlowModel<ContactScanWidget> {
 
   /// Initialization and disposal methods.
 
+  @override
   void initState(BuildContext context) {
     drawerUIModel = createModel(context, () => DrawerUIModel());
   }
 
+  @override
   void dispose() {
     unfocusNode.dispose();
     drawerUIModel.dispose();

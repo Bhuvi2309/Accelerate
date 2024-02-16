@@ -1,19 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
-import '/backend/schema/structs/index.dart';
 
 import '/index.dart';
-import '/main.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/lat_lng.dart';
-import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'serialization_util.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
@@ -38,37 +30,37 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
-      errorBuilder: (context, state) => SplashScreenWidget(),
+      errorBuilder: (context, state) => const SplashScreenWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => SplashScreenWidget(),
+          builder: (context, _) => const SplashScreenWidget(),
         ),
         FFRoute(
           name: 'HotelMap',
           path: '/hotelMap',
-          builder: (context, params) => HotelMapWidget(),
+          builder: (context, params) => const HotelMapWidget(),
         ),
         FFRoute(
           name: 'ShowRoomMap',
           path: '/showRoomMap',
-          builder: (context, params) => ShowRoomMapWidget(),
+          builder: (context, params) => const ShowRoomMapWidget(),
         ),
         FFRoute(
           name: 'Itinerary',
           path: '/itinerary',
-          builder: (context, params) => ItineraryWidget(),
+          builder: (context, params) => const ItineraryWidget(),
         ),
         FFRoute(
           name: 'ContactScan',
           path: '/contactScan',
-          builder: (context, params) => ContactScanWidget(),
+          builder: (context, params) => const ContactScanWidget(),
         ),
         FFRoute(
           name: 'SplashScreen',
           path: '/splashScreen',
-          builder: (context, params) => SplashScreenWidget(),
+          builder: (context, params) => const SplashScreenWidget(),
         ),
         FFRoute(
           name: 'ContactInfo',
@@ -257,7 +249,7 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
+  static TransitionInfo appDefault() => const TransitionInfo(hasTransition: false);
 }
 
 class RootPageContext {

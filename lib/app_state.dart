@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '/backend/schema/structs/index.dart';
-import '/backend/sqlite/sqlite_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 
@@ -17,52 +16,84 @@ class FFAppState extends ChangeNotifier {
     _instance = FFAppState._internal();
   }
 
-  Future initializePersistedState() async {}
+  Future initializePersistedState() async {
+    prefs = await SharedPreferences.getInstance();
+    _safeInit(() {
+      _attendeeList = prefs
+              .getStringList('ff_attendeeList')
+              ?.map((x) {
+                try {
+                  return AttendeeDetailsStruct.fromSerializableMap(
+                      jsonDecode(x));
+                } catch (e) {
+                  print("Can't decode persisted data type. Error: $e.");
+                  return null;
+                }
+              })
+              .withoutNulls
+              .toList() ??
+          _attendeeList;
+    });
+  }
 
   void update(VoidCallback callback) {
     callback();
     notifyListeners();
   }
 
+  late SharedPreferences prefs;
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
-  set isLoading(bool _value) {
-    _isLoading = _value;
+  set isLoading(bool value) {
+    _isLoading = value;
   }
 
   bool _isInteger = true;
   bool get isInteger => _isInteger;
-  set isInteger(bool _value) {
-    _isInteger = _value;
+  set isInteger(bool value) {
+    _isInteger = value;
   }
 
   List<AttendeeDetailsStruct> _attendeeList = [];
   List<AttendeeDetailsStruct> get attendeeList => _attendeeList;
-  set attendeeList(List<AttendeeDetailsStruct> _value) {
-    _attendeeList = _value;
+  set attendeeList(List<AttendeeDetailsStruct> value) {
+    _attendeeList = value;
+    prefs.setStringList(
+        'ff_attendeeList', value.map((x) => x.serialize()).toList());
   }
 
-  void addToAttendeeList(AttendeeDetailsStruct _value) {
-    _attendeeList.add(_value);
+  void addToAttendeeList(AttendeeDetailsStruct value) {
+    _attendeeList.add(value);
+    prefs.setStringList(
+        'ff_attendeeList', _attendeeList.map((x) => x.serialize()).toList());
   }
 
-  void removeFromAttendeeList(AttendeeDetailsStruct _value) {
-    _attendeeList.remove(_value);
+  void removeFromAttendeeList(AttendeeDetailsStruct value) {
+    _attendeeList.remove(value);
+    prefs.setStringList(
+        'ff_attendeeList', _attendeeList.map((x) => x.serialize()).toList());
   }
 
-  void removeAtIndexFromAttendeeList(int _index) {
-    _attendeeList.removeAt(_index);
+  void removeAtIndexFromAttendeeList(int index) {
+    _attendeeList.removeAt(index);
+    prefs.setStringList(
+        'ff_attendeeList', _attendeeList.map((x) => x.serialize()).toList());
   }
 
   void updateAttendeeListAtIndex(
-    int _index,
+    int index,
     AttendeeDetailsStruct Function(AttendeeDetailsStruct) updateFn,
   ) {
-    _attendeeList[_index] = updateFn(_attendeeList[_index]);
+    _attendeeList[index] = updateFn(_attendeeList[index]);
+    prefs.setStringList(
+        'ff_attendeeList', _attendeeList.map((x) => x.serialize()).toList());
   }
 
-  void insertAtIndexInAttendeeList(int _index, AttendeeDetailsStruct _value) {
-    _attendeeList.insert(_index, _value);
+  void insertAtIndexInAttendeeList(int index, AttendeeDetailsStruct value) {
+    _attendeeList.insert(index, value);
+    prefs.setStringList(
+        'ff_attendeeList', _attendeeList.map((x) => x.serialize()).toList());
   }
 }
 

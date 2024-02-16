@@ -1,19 +1,7 @@
-import '/backend/schema/structs/index.dart';
 import '/components/drawer_u_i/drawer_u_i_widget.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import '/custom_code/actions/index.dart' as actions;
 import 'contacts_list_widget.dart' show ContactsListWidget;
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
-import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ContactsListModel extends FlutterFlowModel<ContactsListWidget> {
   ///  State fields for stateful widgets in this page.
@@ -24,10 +12,12 @@ class ContactsListModel extends FlutterFlowModel<ContactsListWidget> {
 
   /// Initialization and disposal methods.
 
+  @override
   void initState(BuildContext context) {
     drawerUIModel = createModel(context, () => DrawerUIModel());
   }
 
+  @override
   void dispose() {
     unfocusNode.dispose();
     drawerUIModel.dispose();
