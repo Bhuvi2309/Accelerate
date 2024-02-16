@@ -1,15 +1,13 @@
+import '/backend/sqlite/sqlite_manager.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-
-import '/backend/schema/structs/index.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
 import 'contact_info_model.dart';
-
 export 'contact_info_model.dart';
 
 class ContactInfoWidget extends StatefulWidget {
@@ -21,15 +19,15 @@ class ContactInfoWidget extends StatefulWidget {
     String? gm,
     required this.phoneno,
     required this.country,
-  })  : this.firstname = firstname ?? 'fname',
-        this.emailid = emailid ?? 'email',
-        this.gm = gm ?? 'position';
+  })  : firstname = firstname ?? 'fname',
+        emailid = emailid ?? 'email',
+        gm = gm ?? 'position';
 
-  final int? attendeeID;
+  final String? attendeeID;
   final String firstname;
   final String emailid;
   final String gm;
-  final int? phoneno;
+  final String? phoneno;
   final String? country;
 
   @override
@@ -52,13 +50,12 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
       logFirebaseEvent('CONTACT_INFO_ContactInfo_ON_INIT_STATE');
       logFirebaseEvent('ContactInfo_update_app_state');
       setState(() {
-        FFAppState().isLoading = false;
+        FFAppState().isLoading = true;
       });
-      logFirebaseEvent('ContactInfo_update_app_state');
-      setState(() {
-        FFAppState().attendeeList =
-            FFAppState().attendeeList.toList().cast<AttendeeDetailsStruct>();
-      });
+      logFirebaseEvent('ContactInfo_backend_call');
+      _model.testtttt = await SQLiteManager.instance.selectContactsByAttendeeId(
+        attendeeID: widget.attendeeID!,
+      );
       logFirebaseEvent('ContactInfo_update_app_state');
       setState(() {
         FFAppState().isLoading = false;
@@ -94,7 +91,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Color(0xFFCC1F20),
+          backgroundColor: const Color(0xFFCC1F20),
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: FlutterFlowTheme.of(context).primary,
@@ -121,18 +118,18 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                   color: FlutterFlowTheme.of(context).primaryBtnText,
                 ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: false,
           elevation: 2.0,
         ),
         body: SafeArea(
           top: true,
           child: Container(
-            constraints: BoxConstraints(
+            constraints: const BoxConstraints(
               minWidth: double.infinity,
               minHeight: double.infinity,
             ),
-            decoration: BoxDecoration(),
+            decoration: const BoxDecoration(),
             child: Stack(
               children: [
                 if (FFAppState().isLoading == false)
@@ -144,21 +141,23 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                         children: [
                           Builder(
                             builder: (context) {
-                              final appstatva =
-                                  FFAppState().attendeeList.toList();
+                              final sqlitrow = _model.testtttt
+                                      ?.map((e) => e)
+                                      .toList()
+                                      .toList() ??
+                                  [];
                               return ListView.builder(
                                 padding: EdgeInsets.zero,
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
-                                itemCount: appstatva.length,
-                                itemBuilder: (context, appstatvaIndex) {
-                                  final appstatvaItem =
-                                      appstatva[appstatvaIndex];
+                                itemCount: sqlitrow.length,
+                                itemBuilder: (context, sqlitrowIndex) {
+                                  final sqlitrowItem = sqlitrow[sqlitrowIndex];
                                   return Column(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.all(5.0),
+                                        padding: const EdgeInsets.all(5.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
@@ -170,13 +169,13 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(8.0, 0.0,
                                                                 0.0, 0.0),
                                                     child: Text(
                                                       valueOrDefault<String>(
-                                                        appstatvaItem.firstName,
-                                                        'fnameva',
+                                                        sqlitrowItem.firstName,
+                                                        'fnam',
                                                       ),
                                                       style:
                                                           FlutterFlowTheme.of(
@@ -186,13 +185,14 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(8.0, 0.0,
                                                                 0.0, 0.0),
                                                     child: Text(
                                                       valueOrDefault<String>(
-                                                        appstatvaItem.position,
-                                                        'fsdfsdfsd',
+                                                        sqlitrowItem
+                                                            .expenditureOrg,
+                                                        'exporg',
                                                       ),
                                                       style:
                                                           FlutterFlowTheme.of(
@@ -211,8 +211,8 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                 children: [
                                                   Text(
                                                     valueOrDefault<String>(
-                                                      appstatvaItem.lastName,
-                                                      'lbnafdsfad',
+                                                      sqlitrowItem.lastName,
+                                                      'lname',
                                                     ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -220,8 +220,8 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                   ),
                                                   Text(
                                                     valueOrDefault<String>(
-                                                      appstatvaItem.country,
-                                                      'fsdfsdfsdfsdf',
+                                                      sqlitrowItem.position,
+                                                      'position',
                                                     ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -234,7 +234,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.all(5.0),
+                                        padding: const EdgeInsets.all(5.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
@@ -246,14 +246,14 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(8.0, 0.0,
                                                                 0.0, 0.0),
                                                     child: Text(
                                                       valueOrDefault<String>(
-                                                        appstatvaItem
-                                                            .expenditureOrg,
-                                                        'exporgg',
+                                                        sqlitrowItem
+                                                            .generalManager,
+                                                        'gm',
                                                       ),
                                                       style:
                                                           FlutterFlowTheme.of(
@@ -263,15 +263,14 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional
+                                                        const EdgeInsetsDirectional
                                                             .fromSTEB(8.0, 0.0,
                                                                 0.0, 0.0),
                                                     child: Text(
                                                       valueOrDefault<String>(
-                                                        appstatvaItem
-                                                            .phoneNumber
-                                                            .toString(),
-                                                        'hggh',
+                                                        sqlitrowItem
+                                                            .phoneNumber,
+                                                        'noooo',
                                                       ),
                                                       style:
                                                           FlutterFlowTheme.of(
@@ -290,9 +289,9 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                 children: [
                                                   Text(
                                                     valueOrDefault<String>(
-                                                      appstatvaItem
-                                                          .generalManager,
-                                                      'gmmmmm',
+                                                      sqlitrowItem
+                                                          .employeeEmail,
+                                                      'email',
                                                     ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -300,8 +299,8 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                   ),
                                                   Text(
                                                     valueOrDefault<String>(
-                                                      appstatvaItem.city,
-                                                      'cittyyyy',
+                                                      sqlitrowItem.country,
+                                                      'conufgf',
                                                     ),
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -325,7 +324,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                   ),
                 if (FFAppState().isLoading == true)
                   Align(
-                    alignment: AlignmentDirectional(0.0, 0.0),
+                    alignment: const AlignmentDirectional(0.0, 0.0),
                     child: Container(
                       width: 100.0,
                       height: 100.0,
@@ -333,7 +332,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
                       child: Align(
-                        alignment: AlignmentDirectional(0.0, 0.0),
+                        alignment: const AlignmentDirectional(0.0, 0.0),
                         child: Lottie.network(
                           'https://assets2.lottiefiles.com/packages/lf20_aZTdD5.json',
                           width: 407.0,

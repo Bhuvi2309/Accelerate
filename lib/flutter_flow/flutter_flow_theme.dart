@@ -138,23 +138,23 @@ class LightModeTheme extends FlutterFlowTheme {
   late Color error = const Color(0xFF8D0E11);
   late Color info = const Color(0xFF81A7BB);
 
-  late Color perficientRed = Color(0xFFCC1F20);
-  late Color lightGold = Color(0xFFC9B38D);
-  late Color darkGold = Color(0xFF8C734B);
-  late Color lightRed = Color(0xFFE61717);
-  late Color darkRed = Color(0xFF8D0E11);
-  late Color gold = Color(0xFFB79967);
-  late Color blueDark = Color(0xFF3D5D6F);
-  late Color blueLight = Color(0xFF81A7BB);
-  late Color gray1 = Color(0xFF222222);
-  late Color gray2 = Color(0xFF444444);
-  late Color gray3 = Color(0xFF58595B);
-  late Color gray4 = Color(0xFF949494);
-  late Color gray5 = Color(0xFFD1D3D4);
-  late Color gray6 = Color(0xFFE8E8E8);
-  late Color gray7 = Color(0xFFF8F8F8);
-  late Color primaryBtnText = Color(0xFFFFFFFF);
-  late Color lineColor = Color(0xFFE0E3E7);
+  late Color perficientRed = const Color(0xFFCC1F20);
+  late Color lightGold = const Color(0xFFC9B38D);
+  late Color darkGold = const Color(0xFF8C734B);
+  late Color lightRed = const Color(0xFFE61717);
+  late Color darkRed = const Color(0xFF8D0E11);
+  late Color gold = const Color(0xFFB79967);
+  late Color blueDark = const Color(0xFF3D5D6F);
+  late Color blueLight = const Color(0xFF81A7BB);
+  late Color gray1 = const Color(0xFF222222);
+  late Color gray2 = const Color(0xFF444444);
+  late Color gray3 = const Color(0xFF58595B);
+  late Color gray4 = const Color(0xFF949494);
+  late Color gray5 = const Color(0xFFD1D3D4);
+  late Color gray6 = const Color(0xFFE8E8E8);
+  late Color gray7 = const Color(0xFFF8F8F8);
+  late Color primaryBtnText = const Color(0xFFFFFFFF);
+  late Color lineColor = const Color(0xFFE0E3E7);
 }
 
 abstract class Typography {

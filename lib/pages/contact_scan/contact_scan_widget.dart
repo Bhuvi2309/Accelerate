@@ -8,7 +8,6 @@ import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'contact_scan_model.dart';
 export 'contact_scan_model.dart';
@@ -65,7 +64,7 @@ class _ContactScanWidgetState extends State<ContactScanWidget> {
           child: wrapWithModel(
             model: _model.drawerUIModel,
             updateCallback: () => setState(() {}),
-            child: DrawerUIWidget(),
+            child: const DrawerUIWidget(),
           ),
         ),
         appBar: AppBar(
@@ -97,7 +96,7 @@ class _ContactScanWidgetState extends State<ContactScanWidget> {
                   color: FlutterFlowTheme.of(context).primaryBtnText,
                 ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: false,
           elevation: 2.0,
         ),
@@ -107,15 +106,15 @@ class _ContactScanWidgetState extends State<ContactScanWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Align(
-                alignment: AlignmentDirectional(0.0, 0.0),
+                alignment: const AlignmentDirectional(0.0, 0.0),
                 child: Padding(
                   padding:
-                      EdgeInsetsDirectional.fromSTEB(16.0, 64.0, 16.0, 16.0),
+                      const EdgeInsetsDirectional.fromSTEB(16.0, 64.0, 16.0, 16.0),
                   child: FFButtonWidget(
                     onPressed: () async {
                       logFirebaseEvent(
                           'CONTACT_SCAN_PAGE_SCAN_BADGE_BTN_ON_TAP');
-                      var _shouldSetState = false;
+                      var shouldSetState = false;
                       // qr_code_action
                       logFirebaseEvent('Button_qr_code_action');
                       _model.attendeeID =
@@ -126,13 +125,14 @@ class _ContactScanWidgetState extends State<ContactScanWidget> {
                         ScanMode.QR,
                       );
 
-                      _shouldSetState = true;
+                      shouldSetState = true;
                       logFirebaseEvent('Button_custom_action');
-                      _model.opatttendeed = await actions.validateAttendeeID(
-                        _model.attendeeID!,
+                      _model.validateAttendeeIDResult =
+                          await actions.validateAttendeeID(
+                        _model.attendeeID,
                       );
-                      _shouldSetState = true;
-                      if (FFAppState().isInteger) {
+                      shouldSetState = true;
+                      if (_model.validateAttendeeIDResult == true) {
                         logFirebaseEvent('Button_bottom_sheet');
                         await showModalBottomSheet(
                           isScrollControlled: true,
@@ -148,40 +148,65 @@ class _ContactScanWidgetState extends State<ContactScanWidget> {
                               child: Padding(
                                 padding: MediaQuery.viewInsetsOf(context),
                                 child: AddNoteAlertWidget(
-                                  attendeeId: _model.attendeeID!,
+                                  attendeeId: valueOrDefault<String>(
+                                    _model.attendeeID,
+                                    'attendeeeeee',
+                                  ),
                                 ),
                               ),
                             );
                           },
                         ).then((value) => safeSetState(() {}));
+
+                        logFirebaseEvent('Button_custom_action');
+                        await actions.storeAttendeeID(
+                          _model.attendeeID,
+                        );
+                        logFirebaseEvent('Button_navigate_to');
+
+                        context.pushNamed(
+                          'ContactsList',
+                          queryParameters: {
+                            'attendeeID': serializeParam(
+                              _model.attendeeID,
+                              ParamType.String,
+                            ),
+                          }.withoutNulls,
+                          extra: <String, dynamic>{
+                            kTransitionInfoKey: const TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.fade,
+                            ),
+                          },
+                        );
                       } else {
                         logFirebaseEvent('Button_show_snack_bar');
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(
+                            content: const Text(
                               'AttendeeID is not valid',
                               style: TextStyle(
                                 color: Colors.white,
                               ),
                             ),
-                            duration: Duration(milliseconds: 4000),
+                            duration: const Duration(milliseconds: 4000),
                             backgroundColor:
                                 FlutterFlowTheme.of(context).accent1,
                           ),
                         );
-                        if (_shouldSetState) setState(() {});
+                        if (shouldSetState) setState(() {});
                         return;
                       }
 
-                      if (_shouldSetState) setState(() {});
+                      if (shouldSetState) setState(() {});
                     },
                     text: 'Scan Badge',
                     options: FFButtonOptions(
                       width: double.infinity,
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 24.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 24.0),
                       iconPadding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                       color: FlutterFlowTheme.of(context).primary,
                       textStyle:
                           FlutterFlowTheme.of(context).titleSmall.override(
@@ -190,7 +215,7 @@ class _ContactScanWidgetState extends State<ContactScanWidget> {
                                 fontWeight: FontWeight.bold,
                               ),
                       elevation: 3.0,
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Colors.transparent,
                         width: 1.0,
                       ),

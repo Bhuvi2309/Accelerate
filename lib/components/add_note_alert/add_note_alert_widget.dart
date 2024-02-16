@@ -5,8 +5,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'add_note_alert_model.dart';
 export 'add_note_alert_model.dart';
@@ -15,7 +13,7 @@ class AddNoteAlertWidget extends StatefulWidget {
   const AddNoteAlertWidget({
     super.key,
     String? attendeeId,
-  }) : this.attendeeId = attendeeId ?? 'notesattendeeID';
+  }) : attendeeId = attendeeId ?? 'notesattendeeID';
 
   final String attendeeId;
 
@@ -63,9 +61,9 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
     context.watch<FFAppState>();
 
     return Align(
-      alignment: AlignmentDirectional(0.0, 0.0),
+      alignment: const AlignmentDirectional(0.0, 0.0),
       child: Container(
-        decoration: BoxDecoration(),
+        decoration: const BoxDecoration(),
         child: Container(
           width: 284.0,
           height: 332.0,
@@ -74,7 +72,7 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
               BoxShadow(
                 blurRadius: 4.0,
                 color: FlutterFlowTheme.of(context).primaryBackground,
-                offset: Offset(0.0, 2.0),
+                offset: const Offset(0.0, 2.0),
               )
             ],
           ),
@@ -91,10 +89,10 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Align(
-                      alignment: AlignmentDirectional(-1.0, 1.0),
+                      alignment: const AlignmentDirectional(-1.0, 1.0),
                       child: Padding(
                         padding:
-                            EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 8.0),
+                            const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 8.0),
                         child: Text(
                           'Success!  You\'ve Added',
                           style: FlutterFlowTheme.of(context)
@@ -112,7 +110,7 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                         final sqlLiteRow = _model.attendeeId
                                 ?.map((e) => e)
                                 .toList()
-                                ?.toList() ??
+                                .toList() ??
                             [];
                         return ListView.builder(
                           padding: EdgeInsets.zero,
@@ -122,9 +120,9 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                           itemBuilder: (context, sqlLiteRowIndex) {
                             final sqlLiteRowItem = sqlLiteRow[sqlLiteRowIndex];
                             return Align(
-                              alignment: AlignmentDirectional(-1.0, 1.0),
+                              alignment: const AlignmentDirectional(-1.0, 1.0),
                               child: Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 0.0, 8.0),
                                 child: Text(
                                   '${valueOrDefault<String>(
@@ -152,7 +150,7 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                 ),
               ),
               Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
                 child: TextFormField(
                   controller: _model.addNotesAlertInputController,
                   focusNode: _model.addNotesAlertInputFocusNode,
@@ -212,7 +210,7 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                   Expanded(
                     child: Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 16.0),
+                          const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 16.0),
                       child: FFButtonWidget(
                         onPressed: () async {
                           logFirebaseEvent(
@@ -223,23 +221,27 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                           logFirebaseEvent(
                               'add_notes_alert_save_notes_button_custom');
                           await actions.insertingRow(
-                            valueOrDefault<String>(
-                              widget.attendeeId,
-                              'noteattendeeid',
-                            ),
-                            valueOrDefault<String>(
-                              _model.addNotesAlertInputController.text,
-                              'notenote',
-                            ),
+                            widget.attendeeId,
+                            _model.addNotesAlertInputController.text,
                           );
-                          logFirebaseEvent(
-                              'add_notes_alert_save_notes_button_custom');
-                          await actions.storeAttendeeList(
-                            valueOrDefault<String>(
-                              widget.attendeeId,
-                              'noteattendeeLits',
-                            ),
-                          );
+                          if (!(widget.attendeeId != '')) {
+                            logFirebaseEvent(
+                                'add_notes_alert_save_notes_button_show_s');
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'please scan the QR code again',
+                                  style: TextStyle(
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                  ),
+                                ),
+                                duration: const Duration(milliseconds: 4000),
+                                backgroundColor:
+                                    FlutterFlowTheme.of(context).secondary,
+                              ),
+                            );
+                          }
                           logFirebaseEvent(
                               'add_notes_alert_save_notes_button_naviga');
 
@@ -256,9 +258,9 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                         text: 'Save Notes',
                         options: FFButtonOptions(
                           width: double.infinity,
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 24.0, 0.0, 24.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).primary,
                           textStyle:
@@ -268,7 +270,7 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                                     fontWeight: FontWeight.bold,
                                   ),
                           elevation: 3.0,
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Colors.transparent,
                             width: 1.0,
                           ),
@@ -280,7 +282,7 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                   Expanded(
                     child: Padding(
                       padding:
-                          EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 16.0),
+                          const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 16.0),
                       child: FFButtonWidget(
                         onPressed: () async {
                           logFirebaseEvent(
@@ -293,9 +295,9 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                         text: 'Scan Next Badge',
                         options: FFButtonOptions(
                           width: double.infinity,
-                          padding: EdgeInsetsDirectional.fromSTEB(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
                               8.0, 24.0, 8.0, 24.0),
-                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
                           color: Colors.black,
                           textStyle:
@@ -305,7 +307,7 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                                     fontWeight: FontWeight.bold,
                                   ),
                           elevation: 2.0,
-                          borderSide: BorderSide(
+                          borderSide: const BorderSide(
                             color: Colors.transparent,
                             width: 1.0,
                           ),

@@ -1,19 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
-import '/backend/schema/structs/index.dart';
 
 import '/index.dart';
-import '/main.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/lat_lng.dart';
-import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'serialization_util.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
@@ -38,49 +30,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
-      errorBuilder: (context, state) => SplashScreenWidget(),
+      errorBuilder: (context, state) => const SplashScreenWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) => SplashScreenWidget(),
-        ),
-        FFRoute(
-          name: 'HotelMap',
-          path: '/hotelMap',
-          builder: (context, params) => HotelMapWidget(),
-        ),
-        FFRoute(
-          name: 'ShowRoomMap',
-          path: '/showRoomMap',
-          builder: (context, params) => ShowRoomMapWidget(),
-        ),
-        FFRoute(
-          name: 'Itinerary',
-          path: '/itinerary',
-          builder: (context, params) => ItineraryWidget(),
-        ),
-        FFRoute(
-          name: 'ContactScan',
-          path: '/contactScan',
-          builder: (context, params) => ContactScanWidget(),
-        ),
-        FFRoute(
-          name: 'SplashScreen',
-          path: '/splashScreen',
-          builder: (context, params) => SplashScreenWidget(),
-        ),
-        FFRoute(
-          name: 'ContactInfo',
-          path: '/contactInfo',
-          builder: (context, params) => ContactInfoWidget(
-            attendeeID: params.getParam('attendeeID', ParamType.int),
-            firstname: params.getParam('firstname', ParamType.String),
-            emailid: params.getParam('emailid', ParamType.String),
-            gm: params.getParam('gm', ParamType.String),
-            phoneno: params.getParam('phoneno', ParamType.int),
-            country: params.getParam('country', ParamType.String),
-          ),
+          builder: (context, _) => const SplashScreenWidget(),
         ),
         FFRoute(
           name: 'ContactsList',
@@ -90,11 +45,46 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'ContactsListCopy',
-          path: '/contactsListCopy',
-          builder: (context, params) => ContactsListCopyWidget(
+          name: 'HotelMap',
+          path: '/hotelMap',
+          builder: (context, params) => const HotelMapWidget(),
+        ),
+        FFRoute(
+          name: 'ShowRoomMap',
+          path: '/showRoomMap',
+          builder: (context, params) => const ShowRoomMapWidget(),
+        ),
+        FFRoute(
+          name: 'Itinerary',
+          path: '/itinerary',
+          builder: (context, params) => const ItineraryWidget(),
+        ),
+        FFRoute(
+          name: 'ContactScan',
+          path: '/contactScan',
+          builder: (context, params) => const ContactScanWidget(),
+        ),
+        FFRoute(
+          name: 'SplashScreen',
+          path: '/splashScreen',
+          builder: (context, params) => const SplashScreenWidget(),
+        ),
+        FFRoute(
+          name: 'ContactInfo',
+          path: '/contactInfo',
+          builder: (context, params) => ContactInfoWidget(
             attendeeID: params.getParam('attendeeID', ParamType.String),
+            firstname: params.getParam('firstname', ParamType.String),
+            emailid: params.getParam('emailid', ParamType.String),
+            gm: params.getParam('gm', ParamType.String),
+            phoneno: params.getParam('phoneno', ParamType.String),
+            country: params.getParam('country', ParamType.String),
           ),
+        ),
+        FFRoute(
+          name: 'expandable',
+          path: '/expandable',
+          builder: (context, params) => const ExpandableWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -257,7 +247,7 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => TransitionInfo(hasTransition: false);
+  static TransitionInfo appDefault() => const TransitionInfo(hasTransition: false);
 }
 
 class RootPageContext {

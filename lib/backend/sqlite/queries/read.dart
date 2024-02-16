@@ -14,13 +14,13 @@ Future<List<SelectContactsByAttendeeIdRow>> performSelectContactsByAttendeeId(
   String? attendeeID,
 }) {
   final query = '''
-SELECT * FROM contacts WHERE attendeeId = ${attendeeID}
+SELECT * FROM contacts WHERE attendeeId = $attendeeID
 ''';
   return _readQuery(database, query, (d) => SelectContactsByAttendeeIdRow(d));
 }
 
 class SelectContactsByAttendeeIdRow extends SqliteRow {
-  SelectContactsByAttendeeIdRow(Map<String, dynamic> data) : super(data);
+  SelectContactsByAttendeeIdRow(super.data);
 
   String get attendeeId => data['AttendeeId'] as String;
   String? get lastName => data['LastName'] as String?;

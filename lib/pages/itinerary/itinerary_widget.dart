@@ -2,10 +2,8 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_pdf_viewer.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'itinerary_model.dart';
 export 'itinerary_model.dart';
@@ -86,7 +84,7 @@ class _ItineraryWidgetState extends State<ItineraryWidget> {
                   color: FlutterFlowTheme.of(context).primaryBtnText,
                 ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: false,
           elevation: 2.0,
         ),
@@ -101,7 +99,7 @@ class _ItineraryWidgetState extends State<ItineraryWidget> {
                 decoration: BoxDecoration(
                   color: FlutterFlowTheme.of(context).primaryBtnText,
                 ),
-                child: FlutterFlowPdfViewer(
+                child: const FlutterFlowPdfViewer(
                   assetPath:
                       'assets/pdfs/How_to_Enroll_in_Benefits_in_Oracle_Cloud.pdf',
                   height: 300.0,
