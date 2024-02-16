@@ -230,11 +230,6 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                         context.pushNamed(
                                                           'ContactInfo',
                                                           queryParameters: {
-                                                            'attendeeID':
-                                                                serializeParam(
-                                                              widget.attendeeID,
-                                                              ParamType.String,
-                                                            ),
                                                             'firstname':
                                                                 serializeParam(
                                                               '',
@@ -250,15 +245,20 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                               '',
                                                               ParamType.String,
                                                             ),
-                                                            'phoneno':
-                                                                serializeParam(
-                                                              '',
-                                                              ParamType.String,
-                                                            ),
                                                             'country':
                                                                 serializeParam(
                                                               '',
                                                               ParamType.String,
+                                                            ),
+                                                            'attendeeID':
+                                                                serializeParam(
+                                                              0,
+                                                              ParamType.int,
+                                                            ),
+                                                            'phoneno':
+                                                                serializeParam(
+                                                              0,
+                                                              ParamType.int,
                                                             ),
                                                           }.withoutNulls,
                                                         );

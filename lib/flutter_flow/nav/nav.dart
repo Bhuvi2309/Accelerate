@@ -73,11 +73,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'ContactInfo',
           path: '/contactInfo',
           builder: (context, params) => ContactInfoWidget(
-            attendeeID: params.getParam('attendeeID', ParamType.String),
+            attendeeID: params.getParam('attendeeID', ParamType.int),
             firstname: params.getParam('firstname', ParamType.String),
             emailid: params.getParam('emailid', ParamType.String),
             gm: params.getParam('gm', ParamType.String),
-            phoneno: params.getParam('phoneno', ParamType.String),
+            phoneno: params.getParam('phoneno', ParamType.int),
             country: params.getParam('country', ParamType.String),
           ),
         ),
