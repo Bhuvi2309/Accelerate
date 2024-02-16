@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "524709420894",
+    "project_id": "accelerate-d0a77",
+    "storage_bucket": "accelerate-d0a77.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:524709420894:android:dfc93870dbc4478ad5b9cf",
+        "android_client_info": {
+          "package_name": "com.perficient.accelerate"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCyuyw8-tcS_Gs0mlmbhq9Cs5PXZJjS3U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
