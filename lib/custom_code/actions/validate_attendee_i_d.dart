@@ -12,14 +12,12 @@ import 'package:accelerate/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 Future<bool?> validateAttendeeID(String attendeeID) async {
-  final regex = RegExp(r'^[0-9\-]+$');
+  final regex = RegExp(r'^-?\d+$');
 
-  // Check if attendeeID matches the regex
   if (!regex.hasMatch(attendeeID)) {
     try {
-      int.parse(attendeeID); // Attempt to parse as an integer
+      int.parse(attendeeID);
     } catch (e) {
-      // If parsing fails, throw an error
       throw Exception(
           'Invalid attendeeID: $attendeeID must be an integer or a string containing only numbers');
     }

@@ -1,20 +1,20 @@
+import '/backend/schema/structs/index.dart';
 import '/components/drawer_u_i/drawer_u_i_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'contacts_list_model.dart';
-export 'contacts_list_model.dart';
+import 'contacts_list_copy_model.dart';
+export 'contacts_list_copy_model.dart';
 
-class ContactsListWidget extends StatefulWidget {
-  const ContactsListWidget({
+class ContactsListCopyWidget extends StatefulWidget {
+  const ContactsListCopyWidget({
     super.key,
     required this.attendeeID,
   });
@@ -22,26 +22,38 @@ class ContactsListWidget extends StatefulWidget {
   final String? attendeeID;
 
   @override
-  State<ContactsListWidget> createState() => _ContactsListWidgetState();
+  State<ContactsListCopyWidget> createState() => _ContactsListCopyWidgetState();
 }
 
-class _ContactsListWidgetState extends State<ContactsListWidget> {
-  late ContactsListModel _model;
+class _ContactsListCopyWidgetState extends State<ContactsListCopyWidget> {
+  late ContactsListCopyModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => ContactsListModel());
+    _model = createModel(context, () => ContactsListCopyModel());
 
     logFirebaseEvent('screen_view',
-        parameters: {'screen_name': 'ContactsList'});
+        parameters: {'screen_name': 'ContactsListCopy'});
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      logFirebaseEvent('CONTACTS_LIST_ContactsList_ON_INIT_STATE');
-      logFirebaseEvent('ContactsList_custom_action');
-      await actions.getAttendeeFields();
+      logFirebaseEvent('CONTACTS_LIST_COPY_ContactsListCopy_ON_I');
+      // loading_indicator
+      logFirebaseEvent('ContactsListCopy_loading_indicator');
+      setState(() {
+        FFAppState().isLoading = true;
+      });
+      logFirebaseEvent('ContactsListCopy_update_app_state');
+      setState(() {
+        FFAppState().attendeeList =
+            FFAppState().attendeeList.toList().cast<AttendeeDetailsStruct>();
+      });
+      logFirebaseEvent('ContactsListCopy_update_app_state');
+      setState(() {
+        FFAppState().isLoading = false;
+      });
     });
   }
 
@@ -93,7 +105,7 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
               size: 24.0,
             ),
             onPressed: () async {
-              logFirebaseEvent('CONTACTS_LIST_PAGE_menu_sharp_ICN_ON_TAP');
+              logFirebaseEvent('CONTACTS_LIST_COPY_menu_sharp_ICN_ON_TAP');
               logFirebaseEvent('IconButton_drawer');
               scaffoldKey.currentState!.openDrawer();
               logFirebaseEvent('IconButton_google_analytics_event');
@@ -162,13 +174,23 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          'Name',
+                                                          valueOrDefault<
+                                                              String>(
+                                                            appstateItem
+                                                                .firstName,
+                                                            'fname',
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium,
                                                         ),
                                                         Text(
-                                                          'Business Unit',
+                                                          valueOrDefault<
+                                                              String>(
+                                                            appstateItem
+                                                                .position,
+                                                            'appstateposition',
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium,
@@ -185,13 +207,22 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          'lastname',
+                                                          valueOrDefault<
+                                                              String>(
+                                                            appstateItem
+                                                                .lastName,
+                                                            'appstatelastname',
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium,
                                                         ),
                                                         Text(
-                                                          'Location',
+                                                          valueOrDefault<
+                                                              String>(
+                                                            appstateItem.state,
+                                                            'appstatestate',
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium,
@@ -213,7 +244,7 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                       child: FFButtonWidget(
                                                         onPressed: () async {
                                                           logFirebaseEvent(
-                                                              'CONTACTS_LIST_contact_edit_button_ON_TAP');
+                                                              'CONTACTS_LIST_COPY_contact_edit_button_O');
                                                           logFirebaseEvent(
                                                               'contact_edit_button_google_analytics_eve');
                                                           logFirebaseEvent(
@@ -378,7 +409,7 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                 child: FFButtonWidget(
                                   onPressed: () async {
                                     logFirebaseEvent(
-                                        'CONTACTS_LIST_emiail_contact_list_button');
+                                        'CONTACTS_LIST_COPY_emiail_contact_list_b');
                                     logFirebaseEvent(
                                         'emiail_contact_list_button_send_email');
                                     await launchUrl(Uri(

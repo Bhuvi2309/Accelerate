@@ -100,7 +100,7 @@ class _DrawerUIWidgetState extends State<DrawerUIWidget> {
             logFirebaseEvent('DRAWER_U_I_contacts_list_tile_ON_TAP');
             logFirebaseEvent('contacts_list_tile_navigate_to');
 
-            context.goNamed(
+            context.pushNamed(
               'ContactsList',
               queryParameters: {
                 'attendeeID': serializeParam(

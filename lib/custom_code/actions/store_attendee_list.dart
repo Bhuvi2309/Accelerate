@@ -14,7 +14,7 @@ import 'package:sqflite/sqflite.dart';
 
 List<Map<String, dynamic>> attendeeList = [];
 
-Future<void> storeAttendeeID(String attendeeID) async {
+Future<void> storeAttendeeList(String attendeeID) async {
   try {
     String databasePath = await getDatabasesPath();
     String path = join(databasePath, 'contacts.db');

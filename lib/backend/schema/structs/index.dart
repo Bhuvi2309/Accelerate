@@ -1,3 +1,3 @@
 export '/backend/schema/util/schema_util.dart';
 
-export 'contact_struct.dart';
+export 'attendee_details_struct.dart';

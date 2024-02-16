@@ -1,17 +1,14 @@
 import '/components/drawer_u_i/drawer_u_i_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'contact_scan_widget.dart' show ContactScanWidget;
+import 'contacts_list_copy_widget.dart' show ContactsListCopyWidget;
 import 'package:flutter/material.dart';
 
-class ContactScanModel extends FlutterFlowModel<ContactScanWidget> {
+class ContactsListCopyModel extends FlutterFlowModel<ContactsListCopyWidget> {
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
   // Model for DrawerUI component.
   late DrawerUIModel drawerUIModel;
-  var attendeeID = '';
-  // Stores action output result for [Custom Action - validateAttendeeID] action in Button widget.
-  bool? opatttendeed;
 
   /// Initialization and disposal methods.
 

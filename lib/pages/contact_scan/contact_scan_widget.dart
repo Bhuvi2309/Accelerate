@@ -127,12 +127,11 @@ class _ContactScanWidgetState extends State<ContactScanWidget> {
 
                       shouldSetState = true;
                       logFirebaseEvent('Button_custom_action');
-                      _model.validateAttendeeIDResult =
-                          await actions.validateAttendeeID(
+                      _model.opatttendeed = await actions.validateAttendeeID(
                         _model.attendeeID,
                       );
                       shouldSetState = true;
-                      if (_model.validateAttendeeIDResult == true) {
+                      if (FFAppState().isInteger) {
                         logFirebaseEvent('Button_bottom_sheet');
                         await showModalBottomSheet(
                           isScrollControlled: true,
@@ -148,37 +147,12 @@ class _ContactScanWidgetState extends State<ContactScanWidget> {
                               child: Padding(
                                 padding: MediaQuery.viewInsetsOf(context),
                                 child: AddNoteAlertWidget(
-                                  attendeeId: valueOrDefault<String>(
-                                    _model.attendeeID,
-                                    'attendeeeeee',
-                                  ),
+                                  attendeeId: _model.attendeeID,
                                 ),
                               ),
                             );
                           },
                         ).then((value) => safeSetState(() {}));
-
-                        logFirebaseEvent('Button_custom_action');
-                        await actions.storeAttendeeID(
-                          _model.attendeeID,
-                        );
-                        logFirebaseEvent('Button_navigate_to');
-
-                        context.pushNamed(
-                          'ContactsList',
-                          queryParameters: {
-                            'attendeeID': serializeParam(
-                              _model.attendeeID,
-                              ParamType.String,
-                            ),
-                          }.withoutNulls,
-                          extra: <String, dynamic>{
-                            kTransitionInfoKey: const TransitionInfo(
-                              hasTransition: true,
-                              transitionType: PageTransitionType.fade,
-                            ),
-                          },
-                        );
                       } else {
                         logFirebaseEvent('Button_show_snack_bar');
                         ScaffoldMessenger.of(context).showSnackBar(

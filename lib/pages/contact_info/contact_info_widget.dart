@@ -16,7 +16,7 @@ class ContactInfoWidget extends StatefulWidget {
     String? firstname,
     String? emailid,
     String? gm,
-    required this.phoneno,
+    this.phoneno,
     required this.country,
   })  : firstname = firstname ?? 'fname',
         emailid = emailid ?? 'email',
@@ -150,7 +150,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                     .fromSTEB(
                                                         8.0, 0.0, 0.0, 0.0),
                                                 child: Text(
-                                                  'Name',
+                                                  widget.firstname,
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium,
@@ -161,7 +161,10 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                     .fromSTEB(
                                                         8.0, 0.0, 0.0, 0.0),
                                                 child: Text(
-                                                  'Business Unit',
+                                                  valueOrDefault<String>(
+                                                    widget.phoneno?.toString(),
+                                                    '43423',
+                                                  ),
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium,
@@ -177,73 +180,13 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                'lastname',
+                                                widget.emailid,
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium,
                                               ),
                                               Text(
-                                                'Location',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        8.0, 0.0, 0.0, 0.0),
-                                                child: Text(
-                                                  'Name',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium,
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        8.0, 0.0, 0.0, 0.0),
-                                                child: Text(
-                                                  'Business Unit',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'lastname',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium,
-                                              ),
-                                              Text(
-                                                'Location',
+                                                widget.gm,
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium,

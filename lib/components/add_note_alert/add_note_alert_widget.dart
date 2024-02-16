@@ -221,27 +221,23 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                           logFirebaseEvent(
                               'add_notes_alert_save_notes_button_custom');
                           await actions.insertingRow(
-                            widget.attendeeId,
-                            _model.addNotesAlertInputController.text,
+                            valueOrDefault<String>(
+                              widget.attendeeId,
+                              'noteattendeeid',
+                            ),
+                            valueOrDefault<String>(
+                              _model.addNotesAlertInputController.text,
+                              'notenote',
+                            ),
                           );
-                          if (!(widget.attendeeId != '')) {
-                            logFirebaseEvent(
-                                'add_notes_alert_save_notes_button_show_s');
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'please scan the QR code again',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                  ),
-                                ),
-                                duration: const Duration(milliseconds: 4000),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).secondary,
-                              ),
-                            );
-                          }
+                          logFirebaseEvent(
+                              'add_notes_alert_save_notes_button_custom');
+                          await actions.storeAttendeeList(
+                            valueOrDefault<String>(
+                              widget.attendeeId,
+                              'noteattendeeLits',
+                            ),
+                          );
                           logFirebaseEvent(
                               'add_notes_alert_save_notes_button_naviga');
 

@@ -38,13 +38,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, _) => const SplashScreenWidget(),
         ),
         FFRoute(
-          name: 'ContactsList',
-          path: '/contactsList',
-          builder: (context, params) => ContactsListWidget(
-            attendeeID: params.getParam('attendeeID', ParamType.String),
-          ),
-        ),
-        FFRoute(
           name: 'HotelMap',
           path: '/hotelMap',
           builder: (context, params) => const HotelMapWidget(),
@@ -82,9 +75,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'expandable',
-          path: '/expandable',
-          builder: (context, params) => const ExpandableWidget(),
+          name: 'ContactsList',
+          path: '/contactsList',
+          builder: (context, params) => ContactsListWidget(
+            attendeeID: params.getParam('attendeeID', ParamType.String),
+          ),
+        ),
+        FFRoute(
+          name: 'ContactsListCopy',
+          path: '/contactsListCopy',
+          builder: (context, params) => ContactsListCopyWidget(
+            attendeeID: params.getParam('attendeeID', ParamType.String),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

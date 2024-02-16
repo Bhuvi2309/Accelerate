@@ -30,7 +30,6 @@ dependencies:
   collection: 1.17.2
   device_info_plus: 9.1.0
   device_info_plus_platform_interface: 7.0.0
-  expandable: 5.0.1
   firebase_analytics: 10.7.4
   firebase_analytics_platform_interface: 3.8.4
   firebase_analytics_web: 0.5.5+11
