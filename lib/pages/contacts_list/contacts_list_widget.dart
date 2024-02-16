@@ -1,4 +1,3 @@
-import '/backend/sqlite/sqlite_manager.dart';
 import '/components/drawer_u_i/drawer_u_i_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -40,11 +39,6 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('CONTACTS_LIST_ContactsList_ON_INIT_STATE');
-      logFirebaseEvent('ContactsList_backend_call');
-      _model.atttendeeeIddddd =
-          await SQLiteManager.instance.selectContactsByAttendeeId(
-        attendeeID: widget.attendeeID!,
-      );
     });
   }
 
@@ -137,16 +131,18 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                   0.0, 0.0, 0.0, 16.0),
                               child: Builder(
                                 builder: (context) {
-                                  final sqlitedata =
-                                      _model.atttendeeeIddddd?.toList() ?? [];
+                                  final attendeelistappstate =
+                                      FFAppState().attendeeList.toList();
                                   return ListView.builder(
                                     padding: EdgeInsets.zero,
                                     shrinkWrap: true,
                                     scrollDirection: Axis.vertical,
-                                    itemCount: sqlitedata.length,
-                                    itemBuilder: (context, sqlitedataIndex) {
-                                      final sqlitedataItem =
-                                          sqlitedata[sqlitedataIndex];
+                                    itemCount: attendeelistappstate.length,
+                                    itemBuilder:
+                                        (context, attendeelistappstateIndex) {
+                                      final attendeelistappstateItem =
+                                          attendeelistappstate[
+                                              attendeelistappstateIndex];
                                       return Column(
                                         mainAxisSize: MainAxisSize.max,
                                         children: [
@@ -164,22 +160,14 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        valueOrDefault<String>(
-                                                          sqlitedataItem
-                                                              .firstName,
-                                                          'fname',
-                                                        ),
+                                                        'Name',
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .bodyMedium,
                                                       ),
                                                       Text(
-                                                        valueOrDefault<String>(
-                                                          sqlitedataItem
-                                                              .position,
-                                                          'position',
-                                                        ),
+                                                        'Business Unit',
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -197,22 +185,14 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                             .start,
                                                     children: [
                                                       Text(
-                                                        valueOrDefault<String>(
-                                                          sqlitedataItem
-                                                              .lastName,
-                                                          'lname',
-                                                        ),
+                                                        'lastname',
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .bodyMedium,
                                                       ),
                                                       Text(
-                                                        valueOrDefault<String>(
-                                                          sqlitedataItem
-                                                              .country,
-                                                          'location',
-                                                        ),
+                                                        'Location',
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)
