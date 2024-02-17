@@ -1,12 +1,14 @@
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
 import 'contact_info_model.dart';
+
 export 'contact_info_model.dart';
 
 class ContactInfoWidget extends StatefulWidget {
@@ -22,7 +24,8 @@ class ContactInfoWidget extends StatefulWidget {
         emailid = emailid ?? 'email',
         gm = gm ?? 'position';
 
-  final int? attendeeID;
+ 
+  final String? attendeeID;
   final String firstname;
   final String emailid;
   final String gm;

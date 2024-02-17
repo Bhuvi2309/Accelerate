@@ -1,16 +1,19 @@
-import '/components/drawer_u_i/drawer_u_i_widget.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import '/custom_code/actions/index.dart' as actions;
+import 'package:accelerate/custom_code/actions/store_attendee_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '/components/drawer_u_i/drawer_u_i_widget.dart';
+import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'contacts_list_model.dart';
+
 export 'contacts_list_model.dart';
 
 class ContactsListWidget extends StatefulWidget {
@@ -77,11 +80,11 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
           child: wrapWithModel(
             model: _model.drawerUIModel,
             updateCallback: () => setState(() {}),
-            child: const DrawerUIWidget(),
+            child: DrawerUIWidget(),
           ),
         ),
         appBar: AppBar(
-          backgroundColor: const Color(0xFFCC1F20),
+          backgroundColor: Color(0xFFCC1F20),
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: FlutterFlowTheme.of(context).primary,
@@ -107,18 +110,18 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                   color: FlutterFlowTheme.of(context).primaryBtnText,
                 ),
           ),
-          actions: const [],
+          actions: [],
           centerTitle: false,
           elevation: 2.0,
         ),
         body: SafeArea(
           top: true,
           child: Container(
-            constraints: const BoxConstraints(
+            constraints: BoxConstraints(
               minWidth: double.infinity,
               minHeight: double.infinity,
             ),
-            decoration: const BoxDecoration(),
+            decoration: BoxDecoration(),
             child: Stack(
               children: [
                 if (FFAppState().isLoading == false)
@@ -131,25 +134,24 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 16.0),
                                 child: Builder(
                                   builder: (context) {
-                                    final appstate =
-                                        FFAppState().attendeeList.toList();
+                                    
                                     return ListView.builder(
                                       padding: EdgeInsets.zero,
                                       shrinkWrap: true,
                                       scrollDirection: Axis.vertical,
-                                      itemCount: appstate.length,
-                                      itemBuilder: (context, appstateIndex) {
-                                        final appstateItem =
-                                            appstate[appstateIndex];
+                                      itemCount: attendeeList.length,
+                                      itemBuilder: (context, index) {
+                                     
+                                         final attendee = attendeeList[index];
                                         return Column(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsets.all(5.0),
+                                              padding: EdgeInsets.all(5.0),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: [
@@ -162,13 +164,13 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          'Name',
+                                                         attendee['FirstName'],
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium,
                                                         ),
                                                         Text(
-                                                          'Business Unit',
+                                                           attendee['LastName'],
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium,
@@ -185,13 +187,13 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          'lastname',
+                                                           attendee['Country'],
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium,
                                                         ),
                                                         Text(
-                                                          'Location',
+                                                           attendee['City'],
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium,
@@ -201,13 +203,13 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 8.0, 0.0),
                                                     child: Container(
                                                       width: 50.0,
                                                       height: 50.0,
-                                                      decoration: const BoxDecoration(
+                                                      decoration: BoxDecoration(
                                                         shape: BoxShape.circle,
                                                       ),
                                                       child: FFButtonWidget(
@@ -227,67 +229,15 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                               'attendeeID':
                                                                   serializeParam(
                                                                 valueOrDefault<
-                                                                    int>(
-                                                                  appstateItem
-                                                                      .attendeeId,
-                                                                  123,
-                                                                ),
-                                                                ParamType.int,
-                                                              ),
-                                                              'firstname':
-                                                                  serializeParam(
-                                                                valueOrDefault<
                                                                     String>(
-                                                                  appstateItem
-                                                                      .firstName,
-                                                                  'appstatefname',
+                                                                   attendee['attendeeID'],
+                                                                  '123',
                                                                 ),
-                                                                ParamType
-                                                                    .String,
+                                                                ParamType.String,
                                                               ),
-                                                              'emailid':
-                                                                  serializeParam(
-                                                                valueOrDefault<
-                                                                    String>(
-                                                                  appstateItem
-                                                                      .employeeEmail,
-                                                                  'appstateemail',
-                                                                ),
-                                                                ParamType
-                                                                    .String,
-                                                              ),
-                                                              'gm':
-                                                                  serializeParam(
-                                                                valueOrDefault<
-                                                                    String>(
-                                                                  appstateItem
-                                                                      .generalManager,
-                                                                  'appstategm',
-                                                                ),
-                                                                ParamType
-                                                                    .String,
-                                                              ),
-                                                              'phoneno':
-                                                                  serializeParam(
-                                                                valueOrDefault<
-                                                                    int>(
-                                                                  appstateItem
-                                                                      .phoneNumber,
-                                                                  1213344,
-                                                                ),
-                                                                ParamType.int,
-                                                              ),
-                                                              'country':
-                                                                  serializeParam(
-                                                                valueOrDefault<
-                                                                    String>(
-                                                                  appstateItem
-                                                                      .country,
-                                                                  'appstatecountry',
-                                                                ),
-                                                                ParamType
-                                                                    .String,
-                                                              ),
+                                                            
+                                                             
+                                                              
                                                             }.withoutNulls,
                                                           );
                                                         },
@@ -309,14 +259,14 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                                   0.2,
                                                           height: 40.0,
                                                           padding:
-                                                              const EdgeInsetsDirectional
+                                                              EdgeInsetsDirectional
                                                                   .fromSTEB(
                                                                       0.0,
                                                                       0.0,
                                                                       0.0,
                                                                       0.0),
                                                           iconPadding:
-                                                              const EdgeInsets.all(
+                                                              EdgeInsets.all(
                                                                   0.0),
                                                           color: Colors.white,
                                                           textStyle:
@@ -333,12 +283,12 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                                             .bold,
                                                                   ),
                                                           borderSide:
-                                                              const BorderSide(
+                                                              BorderSide(
                                                             color: Colors
                                                                 .transparent,
                                                           ),
                                                           borderRadius:
-                                                              const BorderRadius.only(
+                                                              BorderRadius.only(
                                                             bottomLeft:
                                                                 Radius.circular(
                                                                     20.0),
@@ -373,7 +323,7 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 16.0),
                                 child: FFButtonWidget(
                                   onPressed: () async {
@@ -399,9 +349,9 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                   text: 'Email Contact List',
                                   options: FFButtonOptions(
                                     width: double.infinity,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 24.0, 0.0, 24.0),
-                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
                                     color: FlutterFlowTheme.of(context).primary,
                                     textStyle: FlutterFlowTheme.of(context)
@@ -412,7 +362,7 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                     elevation: 3.0,
-                                    borderSide: const BorderSide(
+                                    borderSide: BorderSide(
                                       color: Colors.transparent,
                                       width: 1.0,
                                     ),
@@ -428,7 +378,7 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                   ),
                 if (FFAppState().isLoading == true)
                   Align(
-                    alignment: const AlignmentDirectional(0.0, 0.0),
+                    alignment: AlignmentDirectional(0.0, 0.0),
                     child: Container(
                       width: 100.0,
                       height: 100.0,
@@ -436,7 +386,7 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
                       child: Align(
-                        alignment: const AlignmentDirectional(0.0, 0.0),
+                        alignment: AlignmentDirectional(0.0, 0.0),
                         child: Lottie.network(
                           'https://assets2.lottiefiles.com/packages/lf20_aZTdD5.json',
                           width: 407.0,
@@ -455,3 +405,4 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
     );
   }
 }
+
