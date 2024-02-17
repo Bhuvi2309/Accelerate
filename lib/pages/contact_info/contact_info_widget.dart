@@ -1,3 +1,5 @@
+import 'package:accelerate/custom_code/actions/index.dart';
+import 'package:accelerate/custom_code/actions/store_attendee_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -47,6 +49,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'ContactInfo'});
     // On page load action.
+    getAttendeeFields();
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       logFirebaseEvent('CONTACT_INFO_ContactInfo_ON_INIT_STATE');
     });
@@ -80,7 +83,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: Color(0xFFCC1F20),
+          backgroundColor: const Color(0xFFCC1F20),
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: FlutterFlowTheme.of(context).primary,
@@ -114,11 +117,11 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
         body: SafeArea(
           top: true,
           child: Container(
-            constraints: BoxConstraints(
+            constraints: const BoxConstraints(
               minWidth: double.infinity,
               minHeight: double.infinity,
             ),
-            decoration: BoxDecoration(),
+            decoration: const BoxDecoration(),
             child: Stack(
               children: [
                 if (FFAppState().isLoading == false)
@@ -137,7 +140,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Padding(
-                                    padding: EdgeInsets.all(5.0),
+                                    padding: const EdgeInsets.all(5.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -148,23 +151,23 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                padding: EdgeInsetsDirectional
+                                                padding: const EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         8.0, 0.0, 0.0, 0.0),
                                                 child: Text(
-                                                  widget.firstname,
+                                                 attendeeList[0]['FirstName'],
                                                   style: FlutterFlowTheme.of(
                                                           context)
                                                       .bodyMedium,
                                                 ),
                                               ),
                                               Padding(
-                                                padding: EdgeInsetsDirectional
+                                                padding: const EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         8.0, 0.0, 0.0, 0.0),
                                                 child: Text(
                                                   valueOrDefault<String>(
-                                                    widget.phoneno?.toString(),
+                                                    attendeeList[0]['LastName'],
                                                     '43423',
                                                   ),
                                                   style: FlutterFlowTheme.of(
@@ -182,13 +185,13 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                widget.emailid,
+                                                attendeeList[0]['Position'],
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium,
                                               ),
                                               Text(
-                                                widget.gm,
+                                               attendeeList[0]['ExpenditureOrg'],
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium,
@@ -209,7 +212,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                   ),
                 if (FFAppState().isLoading == true)
                   Align(
-                    alignment: AlignmentDirectional(0.0, 0.0),
+                    alignment: const AlignmentDirectional(0.0, 0.0),
                     child: Container(
                       width: 100.0,
                       height: 100.0,
@@ -217,7 +220,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
                       child: Align(
-                        alignment: AlignmentDirectional(0.0, 0.0),
+                        alignment: const AlignmentDirectional(0.0, 0.0),
                         child: Lottie.network(
                           'https://assets2.lottiefiles.com/packages/lf20_aZTdD5.json',
                           width: 407.0,
