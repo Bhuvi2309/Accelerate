@@ -229,11 +229,11 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                               'attendeeID':
                                                                   serializeParam(
                                                                 valueOrDefault<
-                                                                    String>(
+                                                                    int>(
                                                                    attendee['attendeeID'],
-                                                                  '123',
+                                                                  123,
                                                                 ),
-                                                                ParamType.String,
+                                                                ParamType.int,
                                                               ),
                                                             
                                                              

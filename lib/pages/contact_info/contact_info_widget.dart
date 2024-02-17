@@ -20,12 +20,11 @@ class ContactInfoWidget extends StatefulWidget {
     String? gm,
     this.phoneno,
     required this.country,
-  })  : firstname = firstname ?? 'fname',
-        emailid = emailid ?? 'email',
-        gm = gm ?? 'position';
+  })  : this.firstname = firstname ?? 'fname',
+        this.emailid = emailid ?? 'email',
+        this.gm = gm ?? 'position';
 
- 
-  final String? attendeeID;
+  final int? attendeeID;
   final String firstname;
   final String emailid;
   final String gm;
@@ -81,7 +80,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
         key: scaffoldKey,
         backgroundColor: Colors.white,
         appBar: AppBar(
-          backgroundColor: const Color(0xFFCC1F20),
+          backgroundColor: Color(0xFFCC1F20),
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: FlutterFlowTheme.of(context).primary,
@@ -108,18 +107,18 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                   color: FlutterFlowTheme.of(context).primaryBtnText,
                 ),
           ),
-          actions: const [],
+          actions: [],
           centerTitle: false,
           elevation: 2.0,
         ),
         body: SafeArea(
           top: true,
           child: Container(
-            constraints: const BoxConstraints(
+            constraints: BoxConstraints(
               minWidth: double.infinity,
               minHeight: double.infinity,
             ),
-            decoration: const BoxDecoration(),
+            decoration: BoxDecoration(),
             child: Stack(
               children: [
                 if (FFAppState().isLoading == false)
@@ -138,7 +137,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(5.0),
+                                    padding: EdgeInsets.all(5.0),
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -149,7 +148,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         8.0, 0.0, 0.0, 0.0),
                                                 child: Text(
@@ -160,7 +159,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         8.0, 0.0, 0.0, 0.0),
                                                 child: Text(
@@ -210,7 +209,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                   ),
                 if (FFAppState().isLoading == true)
                   Align(
-                    alignment: const AlignmentDirectional(0.0, 0.0),
+                    alignment: AlignmentDirectional(0.0, 0.0),
                     child: Container(
                       width: 100.0,
                       height: 100.0,
@@ -218,7 +217,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
                       child: Align(
-                        alignment: const AlignmentDirectional(0.0, 0.0),
+                        alignment: AlignmentDirectional(0.0, 0.0),
                         child: Lottie.network(
                           'https://assets2.lottiefiles.com/packages/lf20_aZTdD5.json',
                           width: 407.0,
