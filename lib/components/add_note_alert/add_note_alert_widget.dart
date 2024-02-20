@@ -127,7 +127,7 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                                 child: Text(
                                   '${valueOrDefault<String>(
                                     sqlLiteRowItem.firstName,
-                                    '<FirstName>',
+                                    'firstname',
                                   )} ${valueOrDefault<String>(
                                     sqlLiteRowItem.lastName,
                                     '<LastName>',

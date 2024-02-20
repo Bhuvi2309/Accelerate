@@ -10,8 +10,6 @@ class ContactScanModel extends FlutterFlowModel<ContactScanWidget> {
   // Model for DrawerUI component.
   late DrawerUIModel drawerUIModel;
   var attendeeID = '';
-  // Stores action output result for [Custom Action - validateAttendeeID] action in Button widget.
-  bool? opatttendeed;
 
   /// Initialization and disposal methods.
 

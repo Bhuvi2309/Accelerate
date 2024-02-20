@@ -15,7 +15,8 @@ class ItineraryWidget extends StatefulWidget {
   State<ItineraryWidget> createState() => _ItineraryWidgetState();
 }
 
-class _ItineraryWidgetState extends State<ItineraryWidget> {
+class _ItineraryWidgetState extends State<ItineraryWidget>
+    with TickerProviderStateMixin {
   late ItineraryModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -26,6 +27,11 @@ class _ItineraryWidgetState extends State<ItineraryWidget> {
     _model = createModel(context, () => ItineraryModel());
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'Itinerary'});
+    _model.tabBarController = TabController(
+      vsync: this,
+      length: 3,
+      initialIndex: 0,
+    )..addListener(() => setState(() {}));
   }
 
   @override
@@ -54,7 +60,7 @@ class _ItineraryWidgetState extends State<ItineraryWidget> {
           : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
@@ -77,12 +83,15 @@ class _ItineraryWidgetState extends State<ItineraryWidget> {
               logFirebaseEvent('menu_button_ontap');
             },
           ),
-          title: Text(
-            'Itinerary',
-            style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  fontFamily: 'Lato',
-                  color: FlutterFlowTheme.of(context).primaryBtnText,
-                ),
+          title: Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(32.0, 0.0, 0.0, 0.0),
+            child: Text(
+              'Itinerary',
+              style: FlutterFlowTheme.of(context).headlineMedium.override(
+                    fontFamily: 'Lato',
+                    color: FlutterFlowTheme.of(context).primaryBtnText,
+                  ),
+            ),
           ),
           actions: const [],
           centerTitle: false,
@@ -95,15 +104,83 @@ class _ItineraryWidgetState extends State<ItineraryWidget> {
             children: [
               Container(
                 width: 400.0,
-                height: 779.0,
+                height: 770.0,
                 decoration: BoxDecoration(
                   color: FlutterFlowTheme.of(context).primaryBtnText,
                 ),
-                child: const FlutterFlowPdfViewer(
-                  assetPath:
-                      'assets/pdfs/How_to_Enroll_in_Benefits_in_Oracle_Cloud.pdf',
-                  height: 300.0,
-                  horizontalScroll: false,
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: const Alignment(0.0, 0),
+                      child: TabBar(
+                        labelColor: FlutterFlowTheme.of(context).primaryText,
+                        unselectedLabelColor:
+                            FlutterFlowTheme.of(context).secondaryText,
+                        labelStyle:
+                            FlutterFlowTheme.of(context).titleMedium.override(
+                                  fontFamily: 'Lato',
+                                ),
+                        unselectedLabelStyle: const TextStyle(),
+                        indicatorColor: FlutterFlowTheme.of(context).primary,
+                        tabs: const [
+                          Tab(
+                            text: 'Day 1  ',
+                          ),
+                          Tab(
+                            text: 'Day 2',
+                          ),
+                          Tab(
+                            text: 'Day 3',
+                          ),
+                        ],
+                        controller: _model.tabBarController,
+                        onTap: (i) async {
+                          [() async {}, () async {}, () async {}][i]();
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: TabBarView(
+                        controller: _model.tabBarController,
+                        children: const [
+                          Stack(
+                            children: [
+                              FlutterFlowPdfViewer(
+                                assetPath:
+                                    'assets/pdfs/How_to_Enroll_in_Benefits_in_Oracle_Cloud.pdf',
+                                height: 761.0,
+                                horizontalScroll: false,
+                              ),
+                            ],
+                          ),
+                          Stack(
+                            children: [
+                              FlutterFlowPdfViewer(
+                                assetPath:
+                                    'assets/pdfs/Employee_Handbook_Acknowledgement_Employee_Handbook_Acknowledgement.pdf',
+                                height: 768.0,
+                                horizontalScroll: false,
+                              ),
+                            ],
+                          ),
+                          Stack(
+                            children: [
+                              Stack(
+                                children: [
+                                  FlutterFlowPdfViewer(
+                                    assetPath:
+                                        'assets/pdfs/Employee_Handbook_Acknowledgement_Employee_Handbook_Acknowledgement.pdf',
+                                    height: 744.0,
+                                    horizontalScroll: false,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

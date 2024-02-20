@@ -28,6 +28,7 @@ dependencies:
   auto_size_text: 3.0.0
   cached_network_image: 3.2.1
   collection: 1.17.2
+  csv: 5.0.1
   device_info_plus: 9.1.0
   device_info_plus_platform_interface: 7.0.0
   firebase_analytics: 10.7.4
@@ -42,6 +43,7 @@ dependencies:
       url: https://github.com/FlutterFlow/flutter_barcode_scanner
   flutter_cache_manager: 3.3.1
   flutter_plugin_android_lifecycle: 2.0.17
+  flutter_secure_storage: 8.0.0
   flutter_spinkit: 5.2.0
   flutter_svg: 2.0.9
   font_awesome_flutter: 10.6.0
@@ -67,6 +69,7 @@ dependencies:
   shared_preferences_platform_interface: 2.3.1
   shared_preferences_web: 2.2.1
   sqflite: 2.2.6
+  synchronized: 3.1.0
   timeago: 3.2.2
   url_launcher: 6.1.10
   url_launcher_android: 6.0.27

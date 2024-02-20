@@ -8,20 +8,36 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-import 'package:accelerate/flutter_flow/flutter_flow_util.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:sqflite/sqflite.dart';
 
-Future<bool?> validateAttendeeID(String attendeeID) async {
-  final regex = RegExp(r'^-?\d+$');
+// Set your action name, define your arguments and return parameter,
+// and then add the boilerplate code using the green button on the right!
+Future<void> validateAttendeeID(String attendeeID) async {
+  try {
+    // Open the database
+    final database = await openDatabase('contacts.db');
 
-  if (!regex.hasMatch(attendeeID)) {
-    try {
-      int.parse(attendeeID);
-    } catch (e) {
-      throw Exception(
-          'Invalid attendeeID: $attendeeID must be an integer or a string containing only numbers');
+    // Query for existing record with scanned value 1
+    final existingRecord = await database.query(
+      'Contacts',
+      where: 'attendeeID = ? AND scanned = 1',
+      whereArgs: [attendeeID],
+    );
+
+    // If a record already exists with scanned = 1, throw an error
+    if (existingRecord.isNotEmpty) {
+      throw Exception('Attendee already scanned');
+    }
+
+    // Update database (only executed if no duplicate found)
+    // ... (code for updating database remains the same)
+  } catch (error) {
+    if (error is Exception && error.toString() == 'Attendee already scanned') {
+      // Show error message for duplicate scan
+      print('Attendee already scanned!');
+    } else {
+      // Handle other errors
+      print('Error adding or updating row: $error');
     }
   }
-
-  return true;
 }

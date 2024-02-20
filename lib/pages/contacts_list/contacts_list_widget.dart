@@ -97,15 +97,18 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
               logFirebaseEvent('IconButton_drawer');
               scaffoldKey.currentState!.openDrawer();
               logFirebaseEvent('IconButton_google_analytics_event');
-              logFirebaseEvent('icon_button_ontap');
+              logFirebaseEvent('menu_button_ontap');
             },
           ),
-          title: Text(
-            'Contacts List',
-            style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  fontFamily: 'Lato',
-                  color: FlutterFlowTheme.of(context).primaryBtnText,
-                ),
+          title: Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(32.0, 0.0, 0.0, 0.0),
+            child: Text(
+              'Contacts List',
+              style: FlutterFlowTheme.of(context).headlineMedium.override(
+                    fontFamily: 'Lato',
+                    color: FlutterFlowTheme.of(context).primaryBtnText,
+                  ),
+            ),
           ),
           actions: const [],
           centerTitle: false,
@@ -162,13 +165,23 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          'Name',
+                                                          valueOrDefault<
+                                                              String>(
+                                                            appstateItem
+                                                                .firstName,
+                                                            'fname',
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium,
                                                         ),
                                                         Text(
-                                                          'Business Unit',
+                                                          valueOrDefault<
+                                                              String>(
+                                                            appstateItem
+                                                                .generalManager,
+                                                            'gm',
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium,
@@ -185,13 +198,22 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                               .start,
                                                       children: [
                                                         Text(
-                                                          'lastname',
+                                                          valueOrDefault<
+                                                              String>(
+                                                            appstateItem
+                                                                .lastName,
+                                                            'lname',
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium,
                                                         ),
                                                         Text(
-                                                          'Location',
+                                                          valueOrDefault<
+                                                              String>(
+                                                            appstateItem.city,
+                                                            'city',
+                                                          ),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
                                                               .bodyMedium,
@@ -226,13 +248,10 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                             queryParameters: {
                                                               'attendeeID':
                                                                   serializeParam(
-                                                                valueOrDefault<
-                                                                    int>(
-                                                                  appstateItem
-                                                                      .attendeeId,
-                                                                  123,
-                                                                ),
-                                                                ParamType.int,
+                                                                widget
+                                                                    .attendeeID,
+                                                                ParamType
+                                                                    .String,
                                                               ),
                                                               'firstname':
                                                                   serializeParam(
@@ -240,42 +259,65 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                                     String>(
                                                                   appstateItem
                                                                       .firstName,
-                                                                  'appstatefname',
+                                                                  'firstname',
                                                                 ),
                                                                 ParamType
                                                                     .String,
                                                               ),
-                                                              'emailid':
+                                                              'lastname':
+                                                                  serializeParam(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  appstateItem
+                                                                      .lastName,
+                                                                  'lastname',
+                                                                ),
+                                                                ParamType
+                                                                    .String,
+                                                              ),
+                                                              'position':
+                                                                  serializeParam(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  appstateItem
+                                                                      .position,
+                                                                  'position',
+                                                                ),
+                                                                ParamType
+                                                                    .String,
+                                                              ),
+                                                              'city':
+                                                                  serializeParam(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  appstateItem
+                                                                      .city,
+                                                                  'city',
+                                                                ),
+                                                                ParamType
+                                                                    .String,
+                                                              ),
+                                                              'state':
+                                                                  serializeParam(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  appstateItem
+                                                                      .state,
+                                                                  'state',
+                                                                ),
+                                                                ParamType
+                                                                    .String,
+                                                              ),
+                                                              'email':
                                                                   serializeParam(
                                                                 valueOrDefault<
                                                                     String>(
                                                                   appstateItem
                                                                       .employeeEmail,
-                                                                  'appstateemail',
+                                                                  'emailid',
                                                                 ),
                                                                 ParamType
                                                                     .String,
-                                                              ),
-                                                              'gm':
-                                                                  serializeParam(
-                                                                valueOrDefault<
-                                                                    String>(
-                                                                  appstateItem
-                                                                      .generalManager,
-                                                                  'appstategm',
-                                                                ),
-                                                                ParamType
-                                                                    .String,
-                                                              ),
-                                                              'phoneno':
-                                                                  serializeParam(
-                                                                valueOrDefault<
-                                                                    int>(
-                                                                  appstateItem
-                                                                      .phoneNumber,
-                                                                  1213344,
-                                                                ),
-                                                                ParamType.int,
                                                               ),
                                                               'country':
                                                                   serializeParam(
@@ -283,7 +325,52 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                                     String>(
                                                                   appstateItem
                                                                       .country,
-                                                                  'appstatecountry',
+                                                                  'country',
+                                                                ),
+                                                                ParamType
+                                                                    .String,
+                                                              ),
+                                                              'generalmanager':
+                                                                  serializeParam(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  appstateItem
+                                                                      .generalManager,
+                                                                  'gm',
+                                                                ),
+                                                                ParamType
+                                                                    .String,
+                                                              ),
+                                                              'expenditureorg':
+                                                                  serializeParam(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  appstateItem
+                                                                      .expenditureOrg,
+                                                                  'exporg',
+                                                                ),
+                                                                ParamType
+                                                                    .String,
+                                                              ),
+                                                              'notes':
+                                                                  serializeParam(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  appstateItem
+                                                                      .notes,
+                                                                  'notes',
+                                                                ),
+                                                                ParamType
+                                                                    .String,
+                                                              ),
+                                                              'phonenumber':
+                                                                  serializeParam(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  appstateItem
+                                                                      .phoneNumber
+                                                                      .toString(),
+                                                                  '99999999',
                                                                 ),
                                                                 ParamType
                                                                     .String,

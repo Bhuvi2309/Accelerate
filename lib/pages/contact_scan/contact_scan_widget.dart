@@ -4,7 +4,6 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -89,12 +88,15 @@ class _ContactScanWidgetState extends State<ContactScanWidget> {
               logFirebaseEvent('menu_button_ontap');
             },
           ),
-          title: Text(
-            'Scan contact',
-            style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  fontFamily: 'Lato',
-                  color: FlutterFlowTheme.of(context).primaryBtnText,
-                ),
+          title: Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(32.0, 0.0, 0.0, 0.0),
+            child: Text(
+              'Scan contact',
+              style: FlutterFlowTheme.of(context).headlineMedium.override(
+                    fontFamily: 'Lato',
+                    color: FlutterFlowTheme.of(context).primaryBtnText,
+                  ),
+            ),
           ),
           actions: const [],
           centerTitle: false,
@@ -114,7 +116,6 @@ class _ContactScanWidgetState extends State<ContactScanWidget> {
                     onPressed: () async {
                       logFirebaseEvent(
                           'CONTACT_SCAN_PAGE_SCAN_BADGE_BTN_ON_TAP');
-                      var shouldSetState = false;
                       // qr_code_action
                       logFirebaseEvent('Button_qr_code_action');
                       _model.attendeeID =
@@ -125,54 +126,32 @@ class _ContactScanWidgetState extends State<ContactScanWidget> {
                         ScanMode.QR,
                       );
 
-                      shouldSetState = true;
-                      logFirebaseEvent('Button_custom_action');
-                      _model.opatttendeed = await actions.validateAttendeeID(
-                        _model.attendeeID,
-                      );
-                      shouldSetState = true;
-                      if (FFAppState().isInteger) {
-                        logFirebaseEvent('Button_bottom_sheet');
-                        await showModalBottomSheet(
-                          isScrollControlled: true,
-                          backgroundColor: Colors.transparent,
-                          enableDrag: false,
-                          context: context,
-                          builder: (context) {
-                            return GestureDetector(
-                              onTap: () => _model.unfocusNode.canRequestFocus
-                                  ? FocusScope.of(context)
-                                      .requestFocus(_model.unfocusNode)
-                                  : FocusScope.of(context).unfocus(),
-                              child: Padding(
-                                padding: MediaQuery.viewInsetsOf(context),
-                                child: AddNoteAlertWidget(
-                                  attendeeId: _model.attendeeID,
+                      logFirebaseEvent('Button_bottom_sheet');
+                      await showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        enableDrag: false,
+                        context: context,
+                        builder: (context) {
+                          return GestureDetector(
+                            onTap: () => _model.unfocusNode.canRequestFocus
+                                ? FocusScope.of(context)
+                                    .requestFocus(_model.unfocusNode)
+                                : FocusScope.of(context).unfocus(),
+                            child: Padding(
+                              padding: MediaQuery.viewInsetsOf(context),
+                              child: AddNoteAlertWidget(
+                                attendeeId: valueOrDefault<String>(
+                                  _model.attendeeID,
+                                  'scannedValue',
                                 ),
                               ),
-                            );
-                          },
-                        ).then((value) => safeSetState(() {}));
-                      } else {
-                        logFirebaseEvent('Button_show_snack_bar');
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Text(
-                              'AttendeeID is not valid',
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
                             ),
-                            duration: const Duration(milliseconds: 4000),
-                            backgroundColor:
-                                FlutterFlowTheme.of(context).accent1,
-                          ),
-                        );
-                        if (shouldSetState) setState(() {});
-                        return;
-                      }
+                          );
+                        },
+                      ).then((value) => safeSetState(() {}));
 
-                      if (shouldSetState) setState(() {});
+                      setState(() {});
                     },
                     text: 'Scan Badge',
                     options: FFButtonOptions(

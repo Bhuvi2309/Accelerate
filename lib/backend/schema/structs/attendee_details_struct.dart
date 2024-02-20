@@ -7,7 +7,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class AttendeeDetailsStruct extends BaseStruct {
   AttendeeDetailsStruct({
-    int? attendeeId,
+    String? attendeeId,
     String? firstName,
     String? lastName,
     String? position,
@@ -33,10 +33,9 @@ class AttendeeDetailsStruct extends BaseStruct {
         _notes = notes;
 
   // "attendeeId" field.
-  int? _attendeeId;
-  int get attendeeId => _attendeeId ?? 0;
-  set attendeeId(int? val) => _attendeeId = val;
-  void incrementAttendeeId(int amount) => _attendeeId = attendeeId + amount;
+  String? _attendeeId;
+  String get attendeeId => _attendeeId ?? '';
+  set attendeeId(String? val) => _attendeeId = val;
   bool hasAttendeeId() => _attendeeId != null;
 
   // "FirstName" field.
@@ -108,7 +107,7 @@ class AttendeeDetailsStruct extends BaseStruct {
 
   static AttendeeDetailsStruct fromMap(Map<String, dynamic> data) =>
       AttendeeDetailsStruct(
-        attendeeId: castToType<int>(data['attendeeId']),
+        attendeeId: data['attendeeId'] as String?,
         firstName: data['FirstName'] as String?,
         lastName: data['LastName'] as String?,
         position: data['Position'] as String?,
@@ -145,7 +144,7 @@ class AttendeeDetailsStruct extends BaseStruct {
   Map<String, dynamic> toSerializableMap() => {
         'attendeeId': serializeParam(
           _attendeeId,
-          ParamType.int,
+          ParamType.String,
         ),
         'FirstName': serializeParam(
           _firstName,
@@ -197,7 +196,7 @@ class AttendeeDetailsStruct extends BaseStruct {
       AttendeeDetailsStruct(
         attendeeId: deserializeParam(
           data['attendeeId'],
-          ParamType.int,
+          ParamType.String,
           false,
         ),
         firstName: deserializeParam(
@@ -295,7 +294,7 @@ class AttendeeDetailsStruct extends BaseStruct {
 }
 
 AttendeeDetailsStruct createAttendeeDetailsStruct({
-  int? attendeeId,
+  String? attendeeId,
   String? firstName,
   String? lastName,
   String? position,

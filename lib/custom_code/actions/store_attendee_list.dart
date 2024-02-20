@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
 import 'package:accelerate/app_state.dart';
+import 'package:accelerate/backend/schema/structs/attendee_details_struct.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -31,43 +32,34 @@ Future<void> storeAttendeeList(String attendeeID) async {
 
     if (results.isNotEmpty) {
       Map<String, dynamic> attendeeData = results.first;
-      print('FirstName: ${attendeeData['FirstName']}');
-      print('LastName: ${attendeeData['LastName']}');
-      print('Position: ${attendeeData['Position']}');
-      // Extract all columns as needed
-      String firstName = attendeeData['FirstName'];
-      String lastName = attendeeData['LastName'];
-      String position = attendeeData['Position'];
-      String expenditureOrg = attendeeData['ExpenditureOrg'];
-      String generalManager = attendeeData['GeneralManager'];
-      String employeeEmail = attendeeData['EmployeeEmail'];
-      String city = attendeeData['City'];
-      String state = attendeeData['State'];
-      String country = attendeeData['Country'];
-      String phoneNumber = attendeeData['PhoneNumber'];
 
-      // Store data in app state list
-      attendeeList.add({
-        'FirstName': firstName,
-        'LastName': lastName,
-        'Position': position,
-        'ExpenditureOrg': expenditureOrg,
-        'GeneralManager': generalManager,
-        'EmployeeEmail': employeeEmail,
-        'City': city,
-        'State': state,
-        'Country': country,
-        'PhoneNumber': phoneNumber,
-      });
+      // Create an AttendeeDetailsStruct object
+      AttendeeDetailsStruct attendee = AttendeeDetailsStruct(
+          attendeeId: attendeeData['attendeeID'],
+          firstName: attendeeData['FirstName'],
+          lastName: attendeeData['LastName'],
+          position: attendeeData['Position'],
+          expenditureOrg: attendeeData['ExpenditureOrg'],
+          generalManager: attendeeData['GeneralManager'],
+          employeeEmail: attendeeData['EmployeeEmail'],
+          city: attendeeData['City'],
+          state: attendeeData['State'],
+          country: attendeeData['Country'],
+          phoneNumber: (attendeeData['PhoneNumber'] != null)
+              ? int.tryParse(attendeeData['PhoneNumber'])
+              : null,
+          notes: attendeeData['Notes']);
 
-      FFAppState().notifyListeners();
-      print('attendeeList  found in database$attendeeList.');
+      // Store the AttendeeDetailsStruct object in the app state list
+      FFAppState().attendeeList.add(attendee);
+
+      print('Attendee details stored successfully: $attendee');
     } else {
       print('Attendee not found in database.');
-      // Handle attendee not found scenario
+      // Handle attendee not found scenario (e.g., display message, initialize list)
     }
   } catch (e) {
     print('Error: $e');
-    // Handle database query errors
+    // Handle database errors (e.g., display error message, log the error)
   }
 }

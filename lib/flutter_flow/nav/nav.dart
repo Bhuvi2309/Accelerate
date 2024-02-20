@@ -66,25 +66,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'ContactInfo',
           path: '/contactInfo',
           builder: (context, params) => ContactInfoWidget(
-            attendeeID: params.getParam('attendeeID', ParamType.int),
+            attendeeID: params.getParam('attendeeID', ParamType.String),
             firstname: params.getParam('firstname', ParamType.String),
-            emailid: params.getParam('emailid', ParamType.String),
-            gm: params.getParam('gm', ParamType.String),
-            phoneno: params.getParam('phoneno', ParamType.int),
+            lastname: params.getParam('lastname', ParamType.String),
+            position: params.getParam('position', ParamType.String),
+            city: params.getParam('city', ParamType.String),
+            state: params.getParam('state', ParamType.String),
+            email: params.getParam('email', ParamType.String),
             country: params.getParam('country', ParamType.String),
+            generalmanager: params.getParam('generalmanager', ParamType.String),
+            phonenumber: params.getParam('phonenumber', ParamType.String),
+            expenditureorg: params.getParam('expenditureorg', ParamType.String),
+            notes: params.getParam('notes', ParamType.String),
           ),
         ),
         FFRoute(
           name: 'ContactsList',
           path: '/contactsList',
           builder: (context, params) => ContactsListWidget(
-            attendeeID: params.getParam('attendeeID', ParamType.String),
-          ),
-        ),
-        FFRoute(
-          name: 'ContactsListCopy',
-          path: '/contactsListCopy',
-          builder: (context, params) => ContactsListCopyWidget(
             attendeeID: params.getParam('attendeeID', ParamType.String),
           ),
         )
