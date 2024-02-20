@@ -476,7 +476,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                           padding:
                                                               const EdgeInsetsDirectional
                                                                   .fromSTEB(
-                                                                      48.0,
+                                                                      44.0,
                                                                       0.0,
                                                                       4.0,
                                                                       0.0),
@@ -507,7 +507,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                                       0.0,
                                                                       0.0),
                                                           child: Text(
-                                                            'General Manager',
+                                                            ' Manager',
                                                             style: FlutterFlowTheme
                                                                     .of(context)
                                                                 .bodyMedium
@@ -529,7 +529,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                           padding:
                                                               const EdgeInsetsDirectional
                                                                   .fromSTEB(
-                                                                      0.0,
+                                                                      38.0,
                                                                       16.0,
                                                                       0.0,
                                                                       0.0),
