@@ -27,16 +27,13 @@ Future<void> validateAttendeeID(String attendeeID) async {
     // If a record already exists with scanned = 1, throw an error
     if (existingRecord.isNotEmpty) {
       throw Exception('Attendee already scanned');
+    } else {
+      print('Attendee can be scanned ');
     }
-
-    // Update database (only executed if no duplicate found)
-    // ... (code for updating database remains the same)
   } catch (error) {
     if (error is Exception && error.toString() == 'Attendee already scanned') {
-      // Show error message for duplicate scan
       print('Attendee already scanned!');
     } else {
-      // Handle other errors
       print('Error adding or updating row: $error');
     }
   }

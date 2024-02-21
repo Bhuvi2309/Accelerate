@@ -88,15 +88,13 @@ class _ContactScanWidgetState extends State<ContactScanWidget> {
               logFirebaseEvent('menu_button_ontap');
             },
           ),
-          title: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(32.0, 0.0, 0.0, 0.0),
-            child: Text(
-              'Scan contact',
-              style: FlutterFlowTheme.of(context).headlineMedium.override(
-                    fontFamily: 'Lato',
-                    color: FlutterFlowTheme.of(context).primaryBtnText,
-                  ),
-            ),
+          title: Text(
+            'Scan contact',
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+                  fontFamily: 'Lato',
+                  color: FlutterFlowTheme.of(context).primaryBtnText,
+                  fontSize: 20.0,
+                ),
           ),
           actions: const [],
           centerTitle: false,

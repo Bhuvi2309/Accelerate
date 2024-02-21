@@ -1,3 +1,4 @@
+import '/components/drawer_u_i/drawer_u_i_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_pdf_viewer.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -61,6 +62,14 @@ class _ItineraryWidgetState extends State<ItineraryWidget>
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: Colors.white,
+        drawer: Drawer(
+          elevation: 16.0,
+          child: wrapWithModel(
+            model: _model.drawerUIModel,
+            updateCallback: () => setState(() {}),
+            child: const DrawerUIWidget(),
+          ),
+        ),
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
@@ -83,15 +92,12 @@ class _ItineraryWidgetState extends State<ItineraryWidget>
               logFirebaseEvent('menu_button_ontap');
             },
           ),
-          title: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(32.0, 0.0, 0.0, 0.0),
-            child: Text(
-              'Itinerary',
-              style: FlutterFlowTheme.of(context).headlineMedium.override(
-                    fontFamily: 'Lato',
-                    color: FlutterFlowTheme.of(context).primaryBtnText,
-                  ),
-            ),
+          title: Text(
+            'Itinerary',
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+                  fontFamily: 'Lato',
+                  color: FlutterFlowTheme.of(context).primaryBtnText,
+                ),
           ),
           actions: const [],
           centerTitle: false,

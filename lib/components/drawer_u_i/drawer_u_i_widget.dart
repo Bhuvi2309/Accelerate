@@ -174,7 +174,7 @@ class _DrawerUIWidgetState extends State<DrawerUIWidget> {
               color: FlutterFlowTheme.of(context).perficientRed,
             ),
             title: Text(
-              'Show Room Map',
+              'Conference Floor Plan',
               style: FlutterFlowTheme.of(context).titleLarge,
             ),
             trailing: Icon(
@@ -203,7 +203,7 @@ class _DrawerUIWidgetState extends State<DrawerUIWidget> {
               color: FlutterFlowTheme.of(context).perficientRed,
             ),
             title: Text(
-              'Hotel Map',
+              'Local Area  Map',
               style: FlutterFlowTheme.of(context).titleLarge,
             ),
             trailing: Icon(

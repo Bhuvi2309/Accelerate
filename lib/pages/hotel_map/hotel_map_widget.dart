@@ -86,15 +86,13 @@ class _HotelMapWidgetState extends State<HotelMapWidget> {
               logFirebaseEvent('menu_button_ontap');
             },
           ),
-          title: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(32.0, 0.0, 0.0, 0.0),
-            child: Text(
-              'Hotel Map',
-              style: FlutterFlowTheme.of(context).headlineMedium.override(
-                    fontFamily: 'Lato',
-                    color: FlutterFlowTheme.of(context).primaryBtnText,
-                  ),
-            ),
+          title: Text(
+            'Local Area Map',
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+                  fontFamily: 'Lato',
+                  color: FlutterFlowTheme.of(context).primaryBtnText,
+                  fontSize: 20.0,
+                ),
           ),
           actions: const [],
           centerTitle: false,

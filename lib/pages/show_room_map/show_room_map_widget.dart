@@ -84,15 +84,13 @@ class _ShowRoomMapWidgetState extends State<ShowRoomMapWidget> {
               logFirebaseEvent('menu_button_ontap');
             },
           ),
-          title: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 0.0),
-            child: Text(
-              'Showroom Map',
-              style: FlutterFlowTheme.of(context).headlineMedium.override(
-                    fontFamily: 'Lato',
-                    color: FlutterFlowTheme.of(context).primaryBtnText,
-                  ),
-            ),
+          title: Text(
+            'Conference Floor Plan',
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+                  fontFamily: 'Lato',
+                  color: FlutterFlowTheme.of(context).primaryBtnText,
+                  fontSize: 20.0,
+                ),
           ),
           actions: const [],
           centerTitle: false,

@@ -81,12 +81,14 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
           ),
         ),
         appBar: AppBar(
-          backgroundColor: const Color(0xFFCC1F20),
+          backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: FlutterFlowTheme.of(context).primary,
+            borderRadius: 20.0,
+            borderWidth: 1.0,
             buttonSize: 40.0,
-            fillColor: Colors.transparent,
+            fillColor: FlutterFlowTheme.of(context).primary,
             icon: Icon(
               Icons.menu_sharp,
               color: FlutterFlowTheme.of(context).primaryBtnText,
@@ -100,15 +102,13 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
               logFirebaseEvent('menu_button_ontap');
             },
           ),
-          title: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(32.0, 0.0, 0.0, 0.0),
-            child: Text(
-              'Contacts List',
-              style: FlutterFlowTheme.of(context).headlineMedium.override(
-                    fontFamily: 'Lato',
-                    color: FlutterFlowTheme.of(context).primaryBtnText,
-                  ),
-            ),
+          title: Text(
+            'Contact List',
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
+                  fontFamily: 'Lato',
+                  color: FlutterFlowTheme.of(context).primaryBtnText,
+                  fontSize: 20.0,
+                ),
           ),
           actions: const [],
           centerTitle: false,
