@@ -1,3 +1,4 @@
+
 import '/backend/sqlite/sqlite_manager.dart';
 import '/components/drawer_u_i/drawer_u_i_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -6,12 +7,21 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:easy_debounce/easy_debounce.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '/components/drawer_u_i/drawer_u_i_widget.dart';
+import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
 import 'contacts_list_model.dart';
+
 export 'contacts_list_model.dart';
 
 class ContactsListWidget extends StatefulWidget {
@@ -103,7 +113,7 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                   letterSpacing: 0.0,
                 ),
           ),
-          actions: const [],
+          actions: [],
           centerTitle: false,
           elevation: 2.0,
         ),
@@ -309,6 +319,7 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.center,
                                                 children: [
+
                                                   Padding(
                                                     padding:
                                                         const EdgeInsetsDirectional
@@ -998,3 +1009,4 @@ class _ContactsListWidgetState extends State<ContactsListWidget> {
     );
   }
 }
+
