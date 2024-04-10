@@ -1,4 +1,4 @@
-# Accelerate Conference App
+# Accelerate
 
 A new Flutter project.
 

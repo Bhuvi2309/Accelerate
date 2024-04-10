@@ -120,8 +120,8 @@ Future<String?> generatePDF() async {
 
     if (await file.exists()) {
       final Email email = Email(
-        body: 'AttendeeDetails',
-        subject: 'Please find the attachment for all the attendee details',
+        body: 'Please find the attachment for all the attendee details',
+        subject: 'Attendee details',
         recipients: ['kpbhuv@gmail.com'],
         attachmentPaths: [filePath],
         isHTML: false,

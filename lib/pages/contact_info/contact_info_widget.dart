@@ -1,25 +1,17 @@
-
 import '/components/drawer_u_i/drawer_u_i_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-
-import '/flutter_flow/flutter_flow_icon_button.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
 import 'contact_info_model.dart';
-
 export 'contact_info_model.dart';
 
 class ContactInfoWidget extends StatefulWidget {
   const ContactInfoWidget({
     super.key,
     String? firstname,
-
     String? lastname,
     String? position,
     String? city,
@@ -38,7 +30,6 @@ class ContactInfoWidget extends StatefulWidget {
         generalmanager = generalmanager ?? 'generalmanager',
         expenditureorg = expenditureorg ?? 'expenditureorg',
         notes = notes ?? 'notes';
-
 
   final String firstname;
   final String lastname;
@@ -66,7 +57,6 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
     _model = createModel(context, () => ContactInfoModel());
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'ContactInfo'});
-
   }
 
   @override
@@ -129,7 +119,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                   ),
             ),
           ),
-          actions: [],
+          actions: const [],
           centerTitle: false,
           elevation: 2.0,
         ),
@@ -155,7 +145,6 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-
                               Padding(
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
@@ -182,7 +171,6 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                               child: Padding(
                                                 padding: const EdgeInsetsDirectional
                                                     .fromSTEB(
-
                                                         0.0, 32.0, 0.0, 0.0),
                                                 child: Container(
                                                   width:
@@ -547,7 +535,6 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                         ],
                                                       ),
                                                     ],
-
                                                   ),
                                                 ),
                                               ),
@@ -555,7 +542,6 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                           ),
                                         ],
                                       ),
-
                                     ),
                                   ],
                                 ),
