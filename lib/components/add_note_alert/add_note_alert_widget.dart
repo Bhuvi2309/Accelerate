@@ -5,17 +5,16 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:provider/provider.dart';
 import 'add_note_alert_model.dart';
 export 'add_note_alert_model.dart';
 
 class AddNoteAlertWidget extends StatefulWidget {
   const AddNoteAlertWidget({
     super.key,
-    String? attendeeId,
-  }) : attendeeId = attendeeId ?? 'notesattendeeID';
+    required this.attendeeId,
+  });
 
-  final String attendeeId;
+  final int? attendeeId;
 
   @override
   State<AddNoteAlertWidget> createState() => _AddNoteAlertWidgetState();
@@ -41,7 +40,11 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
       logFirebaseEvent('AddNoteAlert_backend_call');
       _model.attendeeId =
           await SQLiteManager.instance.selectContactsByAttendeeId(
-        attendeeID: widget.attendeeId,
+        attendeeID: widget.attendeeId!.toString(),
+      );
+      logFirebaseEvent('AddNoteAlert_backend_call');
+      await SQLiteManager.instance.isScanned(
+        isScanned: true,
       );
     });
 
@@ -58,8 +61,6 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Align(
       alignment: const AlignmentDirectional(0.0, 0.0),
       child: Container(
@@ -72,7 +73,10 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
               BoxShadow(
                 blurRadius: 4.0,
                 color: FlutterFlowTheme.of(context).primaryBackground,
-                offset: const Offset(0.0, 2.0),
+                offset: const Offset(
+                  0.0,
+                  2.0,
+                ),
               )
             ],
           ),
@@ -101,24 +105,21 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                                 fontFamily: 'Lato',
                                 color:
                                     FlutterFlowTheme.of(context).primaryBtnText,
+                                letterSpacing: 0.0,
                               ),
                         ),
                       ),
                     ),
                     Builder(
                       builder: (context) {
-                        final sqlLiteRow = _model.attendeeId
-                                ?.map((e) => e)
-                                .toList()
-                                .toList() ??
-                            [];
+                        final sqliterow = _model.attendeeId?.toList() ?? [];
                         return ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
                           scrollDirection: Axis.vertical,
-                          itemCount: sqlLiteRow.length,
-                          itemBuilder: (context, sqlLiteRowIndex) {
-                            final sqlLiteRowItem = sqlLiteRow[sqlLiteRowIndex];
+                          itemCount: sqliterow.length,
+                          itemBuilder: (context, sqliterowIndex) {
+                            final sqliterowItem = sqliterow[sqliterowIndex];
                             return Align(
                               alignment: const AlignmentDirectional(-1.0, 1.0),
                               child: Padding(
@@ -126,11 +127,11 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                                     16.0, 0.0, 0.0, 8.0),
                                 child: Text(
                                   '${valueOrDefault<String>(
-                                    sqlLiteRowItem.firstName,
+                                    sqliterowItem.firstName,
                                     'firstname',
                                   )} ${valueOrDefault<String>(
-                                    sqlLiteRowItem.lastName,
-                                    '<LastName>',
+                                    sqliterowItem.lastName,
+                                    'lastname',
                                   )}',
                                   style: FlutterFlowTheme.of(context)
                                       .headlineMedium
@@ -138,6 +139,7 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                                         fontFamily: 'Lato',
                                         color: FlutterFlowTheme.of(context)
                                             .primaryBtnText,
+                                        letterSpacing: 0.0,
                                       ),
                                 ),
                               ),
@@ -161,10 +163,12 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                     labelStyle:
                         FlutterFlowTheme.of(context).labelMedium.override(
                               fontFamily: 'Lato',
+                              letterSpacing: 0.0,
                             ),
                     hintStyle:
                         FlutterFlowTheme.of(context).labelMedium.override(
                               fontFamily: 'Lato',
+                              letterSpacing: 0.0,
                             ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -198,8 +202,10 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                         fontFamily: 'Lato',
                         color: FlutterFlowTheme.of(context).primary,
+                        letterSpacing: 0.0,
                       ),
                   maxLines: 4,
+                  minLines: null,
                   validator: _model.addNotesAlertInputControllerValidator
                       .asValidator(context),
                 ),
@@ -222,7 +228,7 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                               'add_notes_alert_save_notes_button_custom');
                           await actions.insertingRow(
                             valueOrDefault<String>(
-                              widget.attendeeId,
+                              widget.attendeeId?.toString(),
                               'noteattendeeid',
                             ),
                             valueOrDefault<String>(
@@ -231,25 +237,9 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                             ),
                           );
                           logFirebaseEvent(
-                              'add_notes_alert_save_notes_button_custom');
-                          await actions.storeAttendeeList(
-                            valueOrDefault<String>(
-                              widget.attendeeId,
-                              'noteattendeeLits',
-                            ),
-                          );
-                          logFirebaseEvent(
                               'add_notes_alert_save_notes_button_naviga');
 
-                          context.pushNamed(
-                            'ContactsList',
-                            queryParameters: {
-                              'attendeeID': serializeParam(
-                                widget.attendeeId,
-                                ParamType.String,
-                              ),
-                            }.withoutNulls,
-                          );
+                          context.pushNamed('ContactsList');
                         },
                         text: 'Save Notes',
                         options: FFButtonOptions(
@@ -263,6 +253,7 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                               FlutterFlowTheme.of(context).titleSmall.override(
                                     fontFamily: 'Lato',
                                     color: Colors.white,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.bold,
                                   ),
                           elevation: 3.0,
@@ -300,6 +291,7 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                               FlutterFlowTheme.of(context).titleSmall.override(
                                     fontFamily: 'Lato',
                                     color: Colors.white,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.bold,
                                   ),
                           elevation: 2.0,

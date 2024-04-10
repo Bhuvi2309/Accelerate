@@ -102,9 +102,9 @@ DateTimeRange? dateTimeRangeFromString(String dateTimeRangeStr) {
   );
 }
 
-LatLng? latLngFromString(String latLngStr) {
-  final pieces = latLngStr.split(',');
-  if (pieces.length != 2) {
+LatLng? latLngFromString(String? latLngStr) {
+  final pieces = latLngStr?.split(',');
+  if (pieces == null || pieces.length != 2) {
     return null;
   }
   return LatLng(
@@ -221,6 +221,14 @@ dynamic deserializeParam<T>(
         switch (T) {
           case SelectContactsByAttendeeIdRow:
             return SelectContactsByAttendeeIdRow(data);
+          case IsScannedRow:
+            return IsScannedRow(data);
+          case SearchContactsRow:
+            return SearchContactsRow(data);
+          case Day1IternaryRow:
+            return Day1IternaryRow(data);
+          case Day2IternaryRow:
+            return Day2IternaryRow(data);
           default:
             return null;
         }

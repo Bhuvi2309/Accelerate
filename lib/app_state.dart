@@ -35,6 +35,10 @@ class FFAppState extends ChangeNotifier {
               .toList() ??
           _attendeeList;
     });
+    await _safeInitAsync(() async {
+      _Conference =
+          await secureStorage.getStringList('ff_Conference') ?? _Conference;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -50,13 +54,10 @@ class FFAppState extends ChangeNotifier {
     _isLoading = value;
   }
 
-  bool _isInteger = true;
-  bool get isInteger => _isInteger;
-  set isInteger(bool value) {
-    _isInteger = value;
-  }
-
-  List<AttendeeDetailsStruct> _attendeeList = [];
+  List<AttendeeDetailsStruct> _attendeeList = [
+    AttendeeDetailsStruct.fromSerializableMap(jsonDecode(
+        '{\"attendeeId\":\"Hello World\",\"FirstName\":\"Hello World\",\"LastName\":\"fsdfsdf\",\"Position\":\"Hello World\",\"ExpenditureOrg\":\"vxcvxcvxc\",\"GeneralManager\":\"Hello World\",\"EmployeeEmail\":\"Hello World\",\"City\":\"Hello World\",\"State\":\"Hello World\",\"Country\":\"Hello World\",\"PhoneNumber\":\"0\",\"Notes\":\"Hello World\"}'))
+  ];
   List<AttendeeDetailsStruct> get attendeeList => _attendeeList;
   set attendeeList(List<AttendeeDetailsStruct> value) {
     _attendeeList = value;
@@ -100,16 +101,106 @@ class FFAppState extends ChangeNotifier {
     secureStorage.setStringList(
         'ff_attendeeList', _attendeeList.map((x) => x.serialize()).toList());
   }
-}
 
-LatLng? _latLngFromString(String? val) {
-  if (val == null) {
-    return null;
+  int _isInt = 0;
+  int get isInt => _isInt;
+  set isInt(int value) {
+    _isInt = value;
   }
-  final split = val.split(',');
-  final lat = double.parse(split.first);
-  final lng = double.parse(split.last);
-  return LatLng(lat, lng);
+
+  bool _isInteger = false;
+  bool get isInteger => _isInteger;
+  set isInteger(bool value) {
+    _isInteger = value;
+  }
+
+  bool _isScanned = false;
+  bool get isScanned => _isScanned;
+  set isScanned(bool value) {
+    _isScanned = value;
+  }
+
+  bool _isKeyBoardVisible = false;
+  bool get isKeyBoardVisible => _isKeyBoardVisible;
+  set isKeyBoardVisible(bool value) {
+    _isKeyBoardVisible = value;
+  }
+
+  List<ConferenceDetailsStruct> _conferenceSchedule = [
+    ConferenceDetailsStruct.fromSerializableMap(
+        jsonDecode('{\"StartTime\":\"7.30 A.M\",\"EndTime\":\"6.00 P.M\"}')),
+    ConferenceDetailsStruct.fromSerializableMap(
+        jsonDecode('{\"StartTime\":\"5.00 A.M\",\"EndTime\":\"6.00 P.M\"}')),
+    ConferenceDetailsStruct.fromSerializableMap(
+        jsonDecode('{\"StartTime\":\"8.00A.M\",\"EndTime\":\"6.00 P.M\"}'))
+  ];
+  List<ConferenceDetailsStruct> get conferenceSchedule => _conferenceSchedule;
+  set conferenceSchedule(List<ConferenceDetailsStruct> value) {
+    _conferenceSchedule = value;
+  }
+
+  void addToConferenceSchedule(ConferenceDetailsStruct value) {
+    _conferenceSchedule.add(value);
+  }
+
+  void removeFromConferenceSchedule(ConferenceDetailsStruct value) {
+    _conferenceSchedule.remove(value);
+  }
+
+  void removeAtIndexFromConferenceSchedule(int index) {
+    _conferenceSchedule.removeAt(index);
+  }
+
+  void updateConferenceScheduleAtIndex(
+    int index,
+    ConferenceDetailsStruct Function(ConferenceDetailsStruct) updateFn,
+  ) {
+    _conferenceSchedule[index] = updateFn(_conferenceSchedule[index]);
+  }
+
+  void insertAtIndexInConferenceSchedule(
+      int index, ConferenceDetailsStruct value) {
+    _conferenceSchedule.insert(index, value);
+  }
+
+  List<String> _Conference = ['Start', 'End'];
+  List<String> get Conference => _Conference;
+  set Conference(List<String> value) {
+    _Conference = value;
+    secureStorage.setStringList('ff_Conference', value);
+  }
+
+  void deleteConference() {
+    secureStorage.delete(key: 'ff_Conference');
+  }
+
+  void addToConference(String value) {
+    _Conference.add(value);
+    secureStorage.setStringList('ff_Conference', _Conference);
+  }
+
+  void removeFromConference(String value) {
+    _Conference.remove(value);
+    secureStorage.setStringList('ff_Conference', _Conference);
+  }
+
+  void removeAtIndexFromConference(int index) {
+    _Conference.removeAt(index);
+    secureStorage.setStringList('ff_Conference', _Conference);
+  }
+
+  void updateConferenceAtIndex(
+    int index,
+    String Function(String) updateFn,
+  ) {
+    _Conference[index] = updateFn(_Conference[index]);
+    secureStorage.setStringList('ff_Conference', _Conference);
+  }
+
+  void insertAtIndexInConference(int index, String value) {
+    _Conference.insert(index, value);
+    secureStorage.setStringList('ff_Conference', _Conference);
+  }
 }
 
 void _safeInit(Function() initializeField) {

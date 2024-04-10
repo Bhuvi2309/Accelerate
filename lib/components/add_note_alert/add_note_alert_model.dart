@@ -14,8 +14,6 @@ class AddNoteAlertModel extends FlutterFlowModel<AddNoteAlertWidget> {
   String? Function(BuildContext, String?)?
       addNotesAlertInputControllerValidator;
 
-  /// Initialization and disposal methods.
-
   @override
   void initState(BuildContext context) {}
 
@@ -24,8 +22,4 @@ class AddNoteAlertModel extends FlutterFlowModel<AddNoteAlertWidget> {
     addNotesAlertInputFocusNode?.dispose();
     addNotesAlertInputController?.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

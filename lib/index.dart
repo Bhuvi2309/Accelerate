@@ -6,3 +6,4 @@ export '/pages/contact_scan/contact_scan_widget.dart' show ContactScanWidget;
 export '/pages/splash_screen/splash_screen_widget.dart' show SplashScreenWidget;
 export '/pages/contact_info/contact_info_widget.dart' show ContactInfoWidget;
 export '/pages/contacts_list/contacts_list_widget.dart' show ContactsListWidget;
+export '/schedule/schedule_widget.dart' show ScheduleWidget;

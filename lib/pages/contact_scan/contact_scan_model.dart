@@ -4,14 +4,18 @@ import 'contact_scan_widget.dart' show ContactScanWidget;
 import 'package:flutter/material.dart';
 
 class ContactScanModel extends FlutterFlowModel<ContactScanWidget> {
+  ///  Local state fields for this page.
+
+  bool? isInteger = false;
+
   ///  State fields for stateful widgets in this page.
 
   final unfocusNode = FocusNode();
   // Model for DrawerUI component.
   late DrawerUIModel drawerUIModel;
   var attendeeID = '';
-
-  /// Initialization and disposal methods.
+  // Stores action output result for [Custom Action - validateAttendeeID] action in Button widget.
+  bool? validateAttendee;
 
   @override
   void initState(BuildContext context) {
@@ -23,8 +27,4 @@ class ContactScanModel extends FlutterFlowModel<ContactScanWidget> {
     unfocusNode.dispose();
     drawerUIModel.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

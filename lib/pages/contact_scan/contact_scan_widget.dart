@@ -4,15 +4,20 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/custom_code/actions/index.dart' as actions;
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:provider/provider.dart';
 import 'contact_scan_model.dart';
 export 'contact_scan_model.dart';
 
 class ContactScanWidget extends StatefulWidget {
-  const ContactScanWidget({super.key});
+  const ContactScanWidget({
+    super.key,
+    this.isInt,
+  });
+
+  final bool? isInt;
 
   @override
   State<ContactScanWidget> createState() => _ContactScanWidgetState();
@@ -40,17 +45,6 @@ class _ContactScanWidgetState extends State<ContactScanWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (isiOS) {
-      SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
-          statusBarBrightness: Theme.of(context).brightness,
-          systemStatusBarContrastEnforced: true,
-        ),
-      );
-    }
-
-    context.watch<FFAppState>();
-
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -94,6 +88,7 @@ class _ContactScanWidgetState extends State<ContactScanWidget> {
                   fontFamily: 'Lato',
                   color: FlutterFlowTheme.of(context).primaryBtnText,
                   fontSize: 20.0,
+                  letterSpacing: 0.0,
                 ),
           ),
           actions: const [],
@@ -105,77 +100,109 @@ class _ContactScanWidgetState extends State<ContactScanWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Align(
-                alignment: const AlignmentDirectional(0.0, 0.0),
-                child: Padding(
-                  padding:
-                      const EdgeInsetsDirectional.fromSTEB(16.0, 64.0, 16.0, 16.0),
-                  child: FFButtonWidget(
-                    onPressed: () async {
-                      logFirebaseEvent(
-                          'CONTACT_SCAN_PAGE_SCAN_BADGE_BTN_ON_TAP');
-                      // qr_code_action
-                      logFirebaseEvent('Button_qr_code_action');
-                      _model.attendeeID =
-                          await FlutterBarcodeScanner.scanBarcode(
-                        '#C62828', // scanning line color
-                        'Cancel', // cancel button text
-                        true, // whether to show the flash icon
-                        ScanMode.QR,
-                      );
+              if (responsiveVisibility(
+                context: context,
+                tabletLandscape: false,
+              ))
+                Align(
+                  alignment: const AlignmentDirectional(0.0, 0.0),
+                  child: Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16.0, 64.0, 16.0, 16.0),
+                    child: FFButtonWidget(
+                      onPressed: () async {
+                        logFirebaseEvent(
+                            'CONTACT_SCAN_PAGE_SCAN_BADGE_BTN_ON_TAP');
+                        var shouldSetState = false;
+                        // qr_code_action
+                        logFirebaseEvent('Button_qr_code_action');
+                        _model.attendeeID =
+                            await FlutterBarcodeScanner.scanBarcode(
+                          '#C62828', // scanning line color
+                          'Cancel', // cancel button text
+                          true, // whether to show the flash icon
+                          ScanMode.QR,
+                        );
 
-                      logFirebaseEvent('Button_bottom_sheet');
-                      await showModalBottomSheet(
-                        isScrollControlled: true,
-                        backgroundColor: Colors.transparent,
-                        enableDrag: false,
-                        context: context,
-                        builder: (context) {
-                          return GestureDetector(
-                            onTap: () => _model.unfocusNode.canRequestFocus
-                                ? FocusScope.of(context)
-                                    .requestFocus(_model.unfocusNode)
-                                : FocusScope.of(context).unfocus(),
-                            child: Padding(
-                              padding: MediaQuery.viewInsetsOf(context),
-                              child: AddNoteAlertWidget(
-                                attendeeId: valueOrDefault<String>(
-                                  _model.attendeeID,
-                                  'scannedValue',
+                        shouldSetState = true;
+                        if (functions
+                            .validateAttendeeDetails(_model.attendeeID)!) {
+                          logFirebaseEvent('Button_custom_action');
+                          _model.validateAttendee =
+                              await actions.validateAttendeeID(
+                            functions.strToInt(_model.attendeeID)!,
+                          );
+                          shouldSetState = true;
+                          logFirebaseEvent('Button_bottom_sheet');
+                          await showModalBottomSheet(
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            enableDrag: false,
+                            context: context,
+                            builder: (context) {
+                              return GestureDetector(
+                                onTap: () => _model.unfocusNode.canRequestFocus
+                                    ? FocusScope.of(context)
+                                        .requestFocus(_model.unfocusNode)
+                                    : FocusScope.of(context).unfocus(),
+                                child: Padding(
+                                  padding: MediaQuery.viewInsetsOf(context),
+                                  child: AddNoteAlertWidget(
+                                    attendeeId:
+                                        functions.strToInt(_model.attendeeID)!,
+                                  ),
+                                ),
+                              );
+                            },
+                          ).then((value) => safeSetState(() {}));
+                        } else {
+                          logFirebaseEvent('Button_show_snack_bar');
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Please re-scan the QR code',
+                                style: TextStyle(
+                                  color:
+                                      FlutterFlowTheme.of(context).primaryText,
                                 ),
                               ),
+                              duration: const Duration(milliseconds: 4000),
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).secondary,
                             ),
                           );
-                        },
-                      ).then((value) => safeSetState(() {}));
+                          if (shouldSetState) setState(() {});
+                          return;
+                        }
 
-                      setState(() {});
-                    },
-                    text: 'Scan Badge',
-                    options: FFButtonOptions(
-                      width: double.infinity,
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 24.0, 0.0, 24.0),
-                      iconPadding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
-                      color: FlutterFlowTheme.of(context).primary,
-                      textStyle:
-                          FlutterFlowTheme.of(context).titleSmall.override(
-                                fontFamily: 'Lato',
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                              ),
-                      elevation: 3.0,
-                      borderSide: const BorderSide(
-                        color: Colors.transparent,
-                        width: 1.0,
+                        if (shouldSetState) setState(() {});
+                      },
+                      text: 'Scan Badge',
+                      options: FFButtonOptions(
+                        width: double.infinity,
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                            0.0, 24.0, 0.0, 24.0),
+                        iconPadding:
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        color: FlutterFlowTheme.of(context).primary,
+                        textStyle:
+                            FlutterFlowTheme.of(context).titleSmall.override(
+                                  fontFamily: 'Lato',
+                                  color: Colors.white,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                        elevation: 3.0,
+                        borderSide: const BorderSide(
+                          color: Colors.transparent,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(2.0),
                       ),
-                      borderRadius: BorderRadius.circular(2.0),
+                      showLoadingIndicator: false,
                     ),
-                    showLoadingIndicator: false,
                   ),
                 ),
-              ),
             ],
           ),
         ),

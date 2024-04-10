@@ -1,11 +1,9 @@
 import '/components/drawer_u_i/drawer_u_i_widget.dart';
-import '/flutter_flow/flutter_flow_expanded_image_view.dart';
+import '/flutter_flow/flutter_flow_google_map.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'hotel_map_model.dart';
 export 'hotel_map_model.dart';
 
@@ -20,6 +18,7 @@ class _HotelMapWidgetState extends State<HotelMapWidget> {
   late HotelMapModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  LatLng? currentUserLocationValue;
 
   @override
   void initState() {
@@ -27,6 +26,8 @@ class _HotelMapWidgetState extends State<HotelMapWidget> {
     _model = createModel(context, () => HotelMapModel());
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'HotelMap'});
+    getCurrentUserLocation(defaultLocation: const LatLng(0.0, 0.0), cached: true)
+        .then((loc) => setState(() => currentUserLocationValue = loc));
   }
 
   @override
@@ -38,16 +39,22 @@ class _HotelMapWidgetState extends State<HotelMapWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (isiOS) {
-      SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
-          statusBarBrightness: Theme.of(context).brightness,
-          systemStatusBarContrastEnforced: true,
+    if (currentUserLocationValue == null) {
+      return Container(
+        color: FlutterFlowTheme.of(context).primaryBackground,
+        child: Center(
+          child: SizedBox(
+            width: 50.0,
+            height: 50.0,
+            child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(
+                FlutterFlowTheme.of(context).primary,
+              ),
+            ),
+          ),
         ),
       );
     }
-
-    context.watch<FFAppState>();
 
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
@@ -55,6 +62,7 @@ class _HotelMapWidgetState extends State<HotelMapWidget> {
           : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.white,
         drawer: Drawer(
           elevation: 16.0,
@@ -92,6 +100,7 @@ class _HotelMapWidgetState extends State<HotelMapWidget> {
                   fontFamily: 'Lato',
                   color: FlutterFlowTheme.of(context).primaryBtnText,
                   fontSize: 20.0,
+                  letterSpacing: 0.0,
                 ),
           ),
           actions: const [],
@@ -104,43 +113,44 @@ class _HotelMapWidgetState extends State<HotelMapWidget> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () async {
-                  logFirebaseEvent('HOTEL_MAP_PAGE_Image_ssls5094_ON_TAP');
-                  logFirebaseEvent('Image_expand_image');
-                  await Navigator.push(
-                    context,
-                    PageTransition(
-                      type: PageTransitionType.fade,
-                      child: FlutterFlowExpandedImageView(
-                        image: Image.asset(
-                          'assets/images/aria-map.jpg',
-                          fit: BoxFit.contain,
+              Expanded(
+                child: Builder(builder: (context) {
+                  final googleMapMarker = currentUserLocationValue;
+                  return FlutterFlowGoogleMap(
+                    controller: _model.googleMapsController,
+                    onCameraIdle: (latLng) => _model.googleMapsCenter = latLng,
+                    initialLocation: _model.googleMapsCenter ??=
+                        const LatLng(13.106061, -59.613158),
+                    markers: [
+                      if (googleMapMarker != null)
+                        FlutterFlowMarker(
+                          googleMapMarker.serialize(),
+                          googleMapMarker,
+                          () async {
+                            logFirebaseEvent(
+                                'HOTEL_MAP_GoogleMap_5ap9sryr_ON_MARKER_T');
+                            logFirebaseEvent('GoogleMap_launch_map');
+                            await launchMap(
+                              address: '310 vineyard lane',
+                              title: 'Hotel Address',
+                            );
+                          },
                         ),
-                        allowRotation: true,
-                        tag: 'imageTag',
-                        useHeroAnimation: true,
-                      ),
-                    ),
+                    ],
+                    markerColor: GoogleMarkerColor.violet,
+                    mapType: MapType.normal,
+                    style: GoogleMapStyle.standard,
+                    initialZoom: 14.0,
+                    allowInteraction: true,
+                    allowZoom: true,
+                    showZoomControls: true,
+                    showLocation: true,
+                    showCompass: false,
+                    showMapToolbar: false,
+                    showTraffic: false,
+                    centerMapOnMarkerTap: true,
                   );
-                },
-                child: Hero(
-                  tag: 'imageTag',
-                  transitionOnUserGestures: true,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.asset(
-                      'assets/images/aria-map.jpg',
-                      width: double.infinity,
-                      height: 200.0,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
+                }),
               ),
             ],
           ),

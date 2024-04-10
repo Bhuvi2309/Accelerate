@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Accelerate</string>
+	<string>Accelerate Conference</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Accelerate</string>
+	<string>Accelerate Conference App</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 
@@ -37,10 +37,10 @@
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
         <key>CFBundleURLName</key>
-        <string>accelerate.com</string>
+        <string>accelerateconferenceapp.com</string>
         <key>CFBundleURLSchemes</key>
         <array>
-        <string>accelerate</string>
+        <string>accelerateconferenceapp</string>
         </array>
         </dict>
     </array>
@@ -53,10 +53,39 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 
+	<key>NSLocationWhenInUseUsageDescription</key>
+    <string>In order to search nearby, this app requires access to your current location.</string>
 	<key>NSCameraUsageDescription</key>
     <string>In order to scan for barcodes and QR codes, this app requires permission to access the camera.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+    <string>his app needs access to your photo library to save PDF files.</string>
+	<key>UIFileSharingEnabled</key>
+    <string>for sharing </string>
+	<key>NSDocumentsDirectory</key>
+    <string>To access the directory</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+    <string>download access</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+    <string>document access</string>
+	<key>externalstorage</key>
+    <string>external storage</string>
 
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>comgooglemaps</string>
+      <string>baidumap</string>
+      <string>iosamap</string>
+      <string>waze</string>
+      <string>yandexmaps</string>
+      <string>yandexnavi</string>
+      <string>citymapper</string>
+      <string>mapswithme</string>
+      <string>osmandmaps</string>
+      <string>dgis</string>
+      <string>qqmap</string>
+      <string>here-location</string>
 
+    </array>
 
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
