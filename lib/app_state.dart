@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '/backend/schema/structs/index.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:csv/csv.dart';
+import 'package:synchronized/synchronized.dart';
 import 'flutter_flow/flutter_flow_util.dart';
 
 class FFAppState extends ChangeNotifier {
@@ -17,10 +19,9 @@ class FFAppState extends ChangeNotifier {
   }
 
   Future initializePersistedState() async {
-    prefs = await SharedPreferences.getInstance();
-    _safeInit(() {
-      _attendeeList = prefs
-              .getStringList('ff_attendeeList')
+    secureStorage = const FlutterSecureStorage();
+    await _safeInitAsync(() async {
+      _attendeeList = (await secureStorage.getStringList('ff_attendeeList'))
               ?.map((x) {
                 try {
                   return AttendeeDetailsStruct.fromSerializableMap(
@@ -34,6 +35,10 @@ class FFAppState extends ChangeNotifier {
               .toList() ??
           _attendeeList;
     });
+    await _safeInitAsync(() async {
+      _Conference =
+          await secureStorage.getStringList('ff_Conference') ?? _Conference;
+    });
   }
 
   void update(VoidCallback callback) {
@@ -41,7 +46,7 @@ class FFAppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  late SharedPreferences prefs;
+  late FlutterSecureStorage secureStorage;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -49,35 +54,36 @@ class FFAppState extends ChangeNotifier {
     _isLoading = value;
   }
 
-  bool _isInteger = true;
-  bool get isInteger => _isInteger;
-  set isInteger(bool value) {
-    _isInteger = value;
-  }
-
-  List<AttendeeDetailsStruct> _attendeeList = [];
+  List<AttendeeDetailsStruct> _attendeeList = [
+    AttendeeDetailsStruct.fromSerializableMap(jsonDecode(
+        '{\"attendeeId\":\"Hello World\",\"FirstName\":\"Hello World\",\"LastName\":\"fsdfsdf\",\"Position\":\"Hello World\",\"ExpenditureOrg\":\"vxcvxcvxc\",\"GeneralManager\":\"Hello World\",\"EmployeeEmail\":\"Hello World\",\"City\":\"Hello World\",\"State\":\"Hello World\",\"Country\":\"Hello World\",\"PhoneNumber\":\"0\",\"Notes\":\"Hello World\"}'))
+  ];
   List<AttendeeDetailsStruct> get attendeeList => _attendeeList;
   set attendeeList(List<AttendeeDetailsStruct> value) {
     _attendeeList = value;
-    prefs.setStringList(
+    secureStorage.setStringList(
         'ff_attendeeList', value.map((x) => x.serialize()).toList());
+  }
+
+  void deleteAttendeeList() {
+    secureStorage.delete(key: 'ff_attendeeList');
   }
 
   void addToAttendeeList(AttendeeDetailsStruct value) {
     _attendeeList.add(value);
-    prefs.setStringList(
+    secureStorage.setStringList(
         'ff_attendeeList', _attendeeList.map((x) => x.serialize()).toList());
   }
 
   void removeFromAttendeeList(AttendeeDetailsStruct value) {
     _attendeeList.remove(value);
-    prefs.setStringList(
+    secureStorage.setStringList(
         'ff_attendeeList', _attendeeList.map((x) => x.serialize()).toList());
   }
 
   void removeAtIndexFromAttendeeList(int index) {
     _attendeeList.removeAt(index);
-    prefs.setStringList(
+    secureStorage.setStringList(
         'ff_attendeeList', _attendeeList.map((x) => x.serialize()).toList());
   }
 
@@ -86,25 +92,115 @@ class FFAppState extends ChangeNotifier {
     AttendeeDetailsStruct Function(AttendeeDetailsStruct) updateFn,
   ) {
     _attendeeList[index] = updateFn(_attendeeList[index]);
-    prefs.setStringList(
+    secureStorage.setStringList(
         'ff_attendeeList', _attendeeList.map((x) => x.serialize()).toList());
   }
 
   void insertAtIndexInAttendeeList(int index, AttendeeDetailsStruct value) {
     _attendeeList.insert(index, value);
-    prefs.setStringList(
+    secureStorage.setStringList(
         'ff_attendeeList', _attendeeList.map((x) => x.serialize()).toList());
   }
-}
 
-LatLng? _latLngFromString(String? val) {
-  if (val == null) {
-    return null;
+  int _isInt = 0;
+  int get isInt => _isInt;
+  set isInt(int value) {
+    _isInt = value;
   }
-  final split = val.split(',');
-  final lat = double.parse(split.first);
-  final lng = double.parse(split.last);
-  return LatLng(lat, lng);
+
+  bool _isInteger = false;
+  bool get isInteger => _isInteger;
+  set isInteger(bool value) {
+    _isInteger = value;
+  }
+
+  bool _isScanned = false;
+  bool get isScanned => _isScanned;
+  set isScanned(bool value) {
+    _isScanned = value;
+  }
+
+  bool _isKeyBoardVisible = false;
+  bool get isKeyBoardVisible => _isKeyBoardVisible;
+  set isKeyBoardVisible(bool value) {
+    _isKeyBoardVisible = value;
+  }
+
+  List<ConferenceDetailsStruct> _conferenceSchedule = [
+    ConferenceDetailsStruct.fromSerializableMap(
+        jsonDecode('{\"StartTime\":\"7.30 A.M\",\"EndTime\":\"6.00 P.M\"}')),
+    ConferenceDetailsStruct.fromSerializableMap(
+        jsonDecode('{\"StartTime\":\"5.00 A.M\",\"EndTime\":\"6.00 P.M\"}')),
+    ConferenceDetailsStruct.fromSerializableMap(
+        jsonDecode('{\"StartTime\":\"8.00A.M\",\"EndTime\":\"6.00 P.M\"}'))
+  ];
+  List<ConferenceDetailsStruct> get conferenceSchedule => _conferenceSchedule;
+  set conferenceSchedule(List<ConferenceDetailsStruct> value) {
+    _conferenceSchedule = value;
+  }
+
+  void addToConferenceSchedule(ConferenceDetailsStruct value) {
+    _conferenceSchedule.add(value);
+  }
+
+  void removeFromConferenceSchedule(ConferenceDetailsStruct value) {
+    _conferenceSchedule.remove(value);
+  }
+
+  void removeAtIndexFromConferenceSchedule(int index) {
+    _conferenceSchedule.removeAt(index);
+  }
+
+  void updateConferenceScheduleAtIndex(
+    int index,
+    ConferenceDetailsStruct Function(ConferenceDetailsStruct) updateFn,
+  ) {
+    _conferenceSchedule[index] = updateFn(_conferenceSchedule[index]);
+  }
+
+  void insertAtIndexInConferenceSchedule(
+      int index, ConferenceDetailsStruct value) {
+    _conferenceSchedule.insert(index, value);
+  }
+
+  List<String> _Conference = ['Start', 'End'];
+  List<String> get Conference => _Conference;
+  set Conference(List<String> value) {
+    _Conference = value;
+    secureStorage.setStringList('ff_Conference', value);
+  }
+
+  void deleteConference() {
+    secureStorage.delete(key: 'ff_Conference');
+  }
+
+  void addToConference(String value) {
+    _Conference.add(value);
+    secureStorage.setStringList('ff_Conference', _Conference);
+  }
+
+  void removeFromConference(String value) {
+    _Conference.remove(value);
+    secureStorage.setStringList('ff_Conference', _Conference);
+  }
+
+  void removeAtIndexFromConference(int index) {
+    _Conference.removeAt(index);
+    secureStorage.setStringList('ff_Conference', _Conference);
+  }
+
+  void updateConferenceAtIndex(
+    int index,
+    String Function(String) updateFn,
+  ) {
+    _Conference[index] = updateFn(_Conference[index]);
+    secureStorage.setStringList('ff_Conference', _Conference);
+  }
+
+  void insertAtIndexInConference(int index, String value) {
+    _Conference.insert(index, value);
+    secureStorage.setStringList('ff_Conference', _Conference);
+  }
 }
 
 void _safeInit(Function() initializeField) {
@@ -117,4 +213,47 @@ Future _safeInitAsync(Function() initializeField) async {
   try {
     await initializeField();
   } catch (_) {}
+}
+
+extension FlutterSecureStorageExtensions on FlutterSecureStorage {
+  static final _lock = Lock();
+
+  Future<void> writeSync({required String key, String? value}) async =>
+      await _lock.synchronized(() async {
+        await write(key: key, value: value);
+      });
+
+  void remove(String key) => delete(key: key);
+
+  Future<String?> getString(String key) async => await read(key: key);
+  Future<void> setString(String key, String value) async =>
+      await writeSync(key: key, value: value);
+
+  Future<bool?> getBool(String key) async => (await read(key: key)) == 'true';
+  Future<void> setBool(String key, bool value) async =>
+      await writeSync(key: key, value: value.toString());
+
+  Future<int?> getInt(String key) async =>
+      int.tryParse(await read(key: key) ?? '');
+  Future<void> setInt(String key, int value) async =>
+      await writeSync(key: key, value: value.toString());
+
+  Future<double?> getDouble(String key) async =>
+      double.tryParse(await read(key: key) ?? '');
+  Future<void> setDouble(String key, double value) async =>
+      await writeSync(key: key, value: value.toString());
+
+  Future<List<String>?> getStringList(String key) async =>
+      await read(key: key).then((result) {
+        if (result == null || result.isEmpty) {
+          return null;
+        }
+        return const CsvToListConverter()
+            .convert(result)
+            .first
+            .map((e) => e.toString())
+            .toList();
+      });
+  Future<void> setStringList(String key, List<String> value) async =>
+      await writeSync(key: key, value: const ListToCsvConverter().convert([value]));
 }

@@ -2,7 +2,6 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 import 'drawer_u_i_model.dart';
 export 'drawer_u_i_model.dart';
 
@@ -37,8 +36,6 @@ class _DrawerUIWidgetState extends State<DrawerUIWidget> {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return Column(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -49,6 +46,7 @@ class _DrawerUIWidgetState extends State<DrawerUIWidget> {
             style: FlutterFlowTheme.of(context).titleLarge.override(
                   fontFamily: 'Lato',
                   color: FlutterFlowTheme.of(context).primaryBtnText,
+                  letterSpacing: 0.0,
                 ),
           ),
           tileColor: FlutterFlowTheme.of(context).perficientRed,
@@ -80,7 +78,10 @@ class _DrawerUIWidgetState extends State<DrawerUIWidget> {
             ),
             title: Text(
               'Scan Badge',
-              style: FlutterFlowTheme.of(context).titleLarge,
+              style: FlutterFlowTheme.of(context).titleLarge.override(
+                    fontFamily: 'Lato',
+                    letterSpacing: 0.0,
+                  ),
             ),
             trailing: Icon(
               Icons.arrow_forward_ios,
@@ -100,15 +101,7 @@ class _DrawerUIWidgetState extends State<DrawerUIWidget> {
             logFirebaseEvent('DRAWER_U_I_contacts_list_tile_ON_TAP');
             logFirebaseEvent('contacts_list_tile_navigate_to');
 
-            context.pushNamed(
-              'ContactsList',
-              queryParameters: {
-                'attendeeID': serializeParam(
-                  '',
-                  ParamType.String,
-                ),
-              }.withoutNulls,
-            );
+            context.pushNamed('ContactsList');
           },
           child: ListTile(
             leading: Icon(
@@ -117,7 +110,10 @@ class _DrawerUIWidgetState extends State<DrawerUIWidget> {
             ),
             title: Text(
               'Contacts List',
-              style: FlutterFlowTheme.of(context).titleLarge,
+              style: FlutterFlowTheme.of(context).titleLarge.override(
+                    fontFamily: 'Lato',
+                    letterSpacing: 0.0,
+                  ),
             ),
             trailing: Icon(
               Icons.arrow_forward_ios,
@@ -146,7 +142,10 @@ class _DrawerUIWidgetState extends State<DrawerUIWidget> {
             ),
             title: Text(
               'Itinerary',
-              style: FlutterFlowTheme.of(context).titleLarge,
+              style: FlutterFlowTheme.of(context).titleLarge.override(
+                    fontFamily: 'Lato',
+                    letterSpacing: 0.0,
+                  ),
             ),
             trailing: Icon(
               Icons.arrow_forward_ios,
@@ -174,8 +173,11 @@ class _DrawerUIWidgetState extends State<DrawerUIWidget> {
               color: FlutterFlowTheme.of(context).perficientRed,
             ),
             title: Text(
-              'Show Room Map',
-              style: FlutterFlowTheme.of(context).titleLarge,
+              'Conference Floor Plan',
+              style: FlutterFlowTheme.of(context).titleLarge.override(
+                    fontFamily: 'Lato',
+                    letterSpacing: 0.0,
+                  ),
             ),
             trailing: Icon(
               Icons.arrow_forward_ios,
@@ -203,8 +205,11 @@ class _DrawerUIWidgetState extends State<DrawerUIWidget> {
               color: FlutterFlowTheme.of(context).perficientRed,
             ),
             title: Text(
-              'Hotel Map',
-              style: FlutterFlowTheme.of(context).titleLarge,
+              'Local Area  Map',
+              style: FlutterFlowTheme.of(context).titleLarge.override(
+                    fontFamily: 'Lato',
+                    letterSpacing: 0.0,
+                  ),
             ),
             trailing: Icon(
               Icons.arrow_forward_ios,

@@ -2,10 +2,16 @@
     package="com.perficient.accelerate"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.CAMERA"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission."/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
-        android:label="Accelerate"
+        android:label="Accelerate Conference"
         tools:replace="android:label"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true">
@@ -45,7 +51,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="accelerate" android:host="accelerate.com" />
+                <data android:scheme="accelerateconferenceapp" android:host="accelerateconferenceapp.com" />
             </intent-filter>
 
         </activity>
@@ -55,7 +61,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDCVz7eOb09MzB-e7muY7cnqmsAcQVQa3M"/>
 
 
     </application>

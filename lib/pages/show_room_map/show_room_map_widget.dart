@@ -4,8 +4,6 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 import 'show_room_map_model.dart';
 export 'show_room_map_model.dart';
 
@@ -38,17 +36,6 @@ class _ShowRoomMapWidgetState extends State<ShowRoomMapWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (isiOS) {
-      SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
-          statusBarBrightness: Theme.of(context).brightness,
-          systemStatusBarContrastEnforced: true,
-        ),
-      );
-    }
-
-    context.watch<FFAppState>();
-
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)
@@ -85,10 +72,12 @@ class _ShowRoomMapWidgetState extends State<ShowRoomMapWidget> {
             },
           ),
           title: Text(
-            'Showroom Map',
+            'Conference Floor Plan',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   fontFamily: 'Lato',
                   color: FlutterFlowTheme.of(context).primaryBtnText,
+                  fontSize: 20.0,
+                  letterSpacing: 0.0,
                 ),
           ),
           actions: const [],

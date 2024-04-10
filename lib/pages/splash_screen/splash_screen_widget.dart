@@ -1,12 +1,11 @@
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:provider/provider.dart';
 import 'splash_screen_model.dart';
 export 'splash_screen_model.dart';
 
@@ -62,6 +61,16 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
           ),
         },
       );
+
+      logFirebaseEvent('SplashScreen_custom_action');
+      await actions.sendAppDownloadEvent();
+      logFirebaseEvent('SplashScreen_google_analytics_event');
+      logFirebaseEvent(
+        getCurrentTimestamp.toString(),
+        parameters: {
+          isAndroid.toString(): dateTimeFormat('d/M/y', getCurrentTimestamp),
+        },
+      );
     });
   }
 
@@ -74,17 +83,6 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
 
   @override
   Widget build(BuildContext context) {
-    if (isiOS) {
-      SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
-          statusBarBrightness: Theme.of(context).brightness,
-          systemStatusBarContrastEnforced: true,
-        ),
-      );
-    }
-
-    context.watch<FFAppState>();
-
     return GestureDetector(
       onTap: () => _model.unfocusNode.canRequestFocus
           ? FocusScope.of(context).requestFocus(_model.unfocusNode)

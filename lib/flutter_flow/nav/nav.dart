@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '/backend/schema/structs/index.dart';
+
 
 import '/index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -55,7 +57,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'ContactScan',
           path: '/contactScan',
-          builder: (context, params) => const ContactScanWidget(),
+          builder: (context, params) => ContactScanWidget(
+            isInt: params.getParam(
+              'isInt',
+              ParamType.bool,
+            ),
+          ),
         ),
         FFRoute(
           name: 'SplashScreen',
@@ -66,27 +73,57 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'ContactInfo',
           path: '/contactInfo',
           builder: (context, params) => ContactInfoWidget(
-            attendeeID: params.getParam('attendeeID', ParamType.int),
-            firstname: params.getParam('firstname', ParamType.String),
-            emailid: params.getParam('emailid', ParamType.String),
-            gm: params.getParam('gm', ParamType.String),
-            phoneno: params.getParam('phoneno', ParamType.int),
-            country: params.getParam('country', ParamType.String),
+            firstname: params.getParam(
+              'firstname',
+              ParamType.String,
+            ),
+            lastname: params.getParam(
+              'lastname',
+              ParamType.String,
+            ),
+            position: params.getParam(
+              'position',
+              ParamType.String,
+            ),
+            city: params.getParam(
+              'city',
+              ParamType.String,
+            ),
+            state: params.getParam(
+              'state',
+              ParamType.String,
+            ),
+            email: params.getParam(
+              'email',
+              ParamType.String,
+            ),
+            country: params.getParam(
+              'country',
+              ParamType.String,
+            ),
+            generalmanager: params.getParam(
+              'generalmanager',
+              ParamType.String,
+            ),
+            expenditureorg: params.getParam(
+              'expenditureorg',
+              ParamType.String,
+            ),
+            notes: params.getParam(
+              'notes',
+              ParamType.String,
+            ),
           ),
         ),
         FFRoute(
           name: 'ContactsList',
           path: '/contactsList',
-          builder: (context, params) => ContactsListWidget(
-            attendeeID: params.getParam('attendeeID', ParamType.String),
-          ),
+          builder: (context, params) => const ContactsListWidget(),
         ),
         FFRoute(
-          name: 'ContactsListCopy',
-          path: '/contactsListCopy',
-          builder: (context, params) => ContactsListCopyWidget(
-            attendeeID: params.getParam('attendeeID', ParamType.String),
-          ),
+          name: 'Schedule',
+          path: '/schedule',
+          builder: (context, params) => const ScheduleWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -158,6 +195,7 @@ class FFParameters {
     String paramName,
     ParamType type, [
     bool isList = false,
+    StructBuilder<T>? structBuilder,
   ]) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
@@ -175,6 +213,7 @@ class FFParameters {
       param,
       type,
       isList,
+      structBuilder: structBuilder,
     );
   }
 }
@@ -200,6 +239,7 @@ class FFRoute {
         name: name,
         path: path,
         pageBuilder: (context, state) {
+          fixStatusBarOniOS16AndBelow(context);
           final ffParams = FFParameters(state, asyncParams);
           final page = ffParams.hasFutures
               ? FutureBuilder(

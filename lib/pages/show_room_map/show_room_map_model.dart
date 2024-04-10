@@ -10,8 +10,6 @@ class ShowRoomMapModel extends FlutterFlowModel<ShowRoomMapWidget> {
   // Model for DrawerUI component.
   late DrawerUIModel drawerUIModel;
 
-  /// Initialization and disposal methods.
-
   @override
   void initState(BuildContext context) {
     drawerUIModel = createModel(context, () => DrawerUIModel());
@@ -22,8 +20,4 @@ class ShowRoomMapModel extends FlutterFlowModel<ShowRoomMapWidget> {
     unfocusNode.dispose();
     drawerUIModel.dispose();
   }
-
-  /// Action blocks are added here.
-
-  /// Additional helper methods are added here.
 }

@@ -1,8 +1,10 @@
-import 'package:accelerate/custom_code/actions/index.dart';
-import 'package:accelerate/custom_code/actions/store_attendee_list.dart';
+
+import '/components/drawer_u_i/drawer_u_i_widget.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
@@ -16,22 +18,38 @@ export 'contact_info_model.dart';
 class ContactInfoWidget extends StatefulWidget {
   const ContactInfoWidget({
     super.key,
-    required this.attendeeID,
     String? firstname,
-    String? emailid,
-    String? gm,
-    this.phoneno,
-    required this.country,
-  })  : this.firstname = firstname ?? 'fname',
-        this.emailid = emailid ?? 'email',
-        this.gm = gm ?? 'position';
 
-  final int? attendeeID;
+    String? lastname,
+    String? position,
+    String? city,
+    String? state,
+    String? email,
+    this.country,
+    String? generalmanager,
+    String? expenditureorg,
+    String? notes,
+  })  : firstname = firstname ?? 'firstname',
+        lastname = lastname ?? 'lastname',
+        position = position ?? 'position',
+        city = city ?? 'city',
+        state = state ?? 'state',
+        email = email ?? 'email',
+        generalmanager = generalmanager ?? 'generalmanager',
+        expenditureorg = expenditureorg ?? 'expenditureorg',
+        notes = notes ?? 'notes';
+
+
   final String firstname;
-  final String emailid;
-  final String gm;
-  final int? phoneno;
+  final String lastname;
+  final String position;
+  final String city;
+  final String state;
+  final String email;
   final String? country;
+  final String generalmanager;
+  final String expenditureorg;
+  final String notes;
 
   @override
   State<ContactInfoWidget> createState() => _ContactInfoWidgetState();
@@ -48,11 +66,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
     _model = createModel(context, () => ContactInfoModel());
 
     logFirebaseEvent('screen_view', parameters: {'screen_name': 'ContactInfo'});
-    // On page load action.
-    getAttendeeFields();
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      logFirebaseEvent('CONTACT_INFO_ContactInfo_ON_INIT_STATE');
-    });
+
   }
 
   @override
@@ -64,15 +78,6 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (isiOS) {
-      SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
-          statusBarBrightness: Theme.of(context).brightness,
-          systemStatusBarContrastEnforced: true,
-        ),
-      );
-    }
-
     context.watch<FFAppState>();
 
     return GestureDetector(
@@ -82,14 +87,23 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: Colors.white,
+        drawer: Drawer(
+          elevation: 16.0,
+          child: wrapWithModel(
+            model: _model.drawerUIModel,
+            updateCallback: () => setState(() {}),
+            child: const DrawerUIWidget(),
+          ),
+        ),
         appBar: AppBar(
-          backgroundColor: const Color(0xFFCC1F20),
+          backgroundColor: FlutterFlowTheme.of(context).primary,
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: FlutterFlowTheme.of(context).primary,
-            borderRadius: 30.0,
+            borderRadius: 20.0,
+            borderWidth: 1.0,
             buttonSize: 40.0,
-            fillColor: Colors.transparent,
+            fillColor: FlutterFlowTheme.of(context).primary,
             icon: Icon(
               Icons.menu_sharp,
               color: FlutterFlowTheme.of(context).primaryBtnText,
@@ -97,18 +111,23 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
             ),
             onPressed: () async {
               logFirebaseEvent('CONTACT_INFO_PAGE_menu_sharp_ICN_ON_TAP');
-              logFirebaseEvent('IconButton_drawer');
-              scaffoldKey.currentState!.openDrawer();
               logFirebaseEvent('IconButton_google_analytics_event');
               logFirebaseEvent('menu_button_ontap');
+              logFirebaseEvent('IconButton_drawer');
+              scaffoldKey.currentState!.openDrawer();
             },
           ),
-          title: Text(
-            'Contact Info',
-            style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  fontFamily: 'Lato',
-                  color: FlutterFlowTheme.of(context).primaryBtnText,
-                ),
+          title: Align(
+            alignment: const AlignmentDirectional(-1.0, 0.0),
+            child: Text(
+              'Contact Information',
+              style: FlutterFlowTheme.of(context).headlineMedium.override(
+                    fontFamily: 'Lato',
+                    color: FlutterFlowTheme.of(context).primaryBtnText,
+                    fontSize: 20.0,
+                    letterSpacing: 0.0,
+                  ),
+            ),
           ),
           actions: [],
           centerTitle: false,
@@ -125,90 +144,427 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
             child: Stack(
               children: [
                 if (FFAppState().isLoading == false)
-                  Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Column(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          ListView(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
+                  Align(
+                    alignment: const AlignmentDirectional(0.0, 0.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              16.0, 16.0, 16.0, 16.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
                             children: [
-                              Column(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(5.0),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        8.0, 0.0, 0.0, 0.0),
-                                                child: Text(
-                                                 attendeeList[0]['FirstName'],
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium,
-                                                ),
+
+                              Padding(
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    16.0, 0.0, 16.0, 0.0),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Expanded(
+                                            child: Card(
+                                              clipBehavior:
+                                                  Clip.antiAliasWithSaveLayer,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              elevation: 10.0,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
                                               ),
-                                              Padding(
+                                              child: Padding(
                                                 padding: const EdgeInsetsDirectional
                                                     .fromSTEB(
-                                                        8.0, 0.0, 0.0, 0.0),
-                                                child: Text(
-                                                  valueOrDefault<String>(
-                                                    attendeeList[0]['LastName'],
-                                                    '43423',
+
+                                                        0.0, 32.0, 0.0, 0.0),
+                                                child: Container(
+                                                  width:
+                                                      MediaQuery.sizeOf(context)
+                                                              .width *
+                                                          0.5,
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primary,
+                                                    borderRadius:
+                                                        const BorderRadius.only(
+                                                      bottomLeft:
+                                                          Radius.circular(10.0),
+                                                      bottomRight:
+                                                          Radius.circular(10.0),
+                                                      topLeft:
+                                                          Radius.circular(10.0),
+                                                      topRight:
+                                                          Radius.circular(10.0),
+                                                    ),
                                                   ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium,
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    16.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              children: [
+                                                                const Icon(
+                                                                  Icons
+                                                                      .person_rounded,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  size: 24.0,
+                                                                ),
+                                                                Padding(
+                                                                  padding: const EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          8.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                                  child: Text(
+                                                                    widget
+                                                                        .firstname,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Roboto Condensed',
+                                                                          color:
+                                                                              Colors.white,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                          fontStyle:
+                                                                              FontStyle.italic,
+                                                                        ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          4.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: Text(
+                                                                widget.lastname,
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Roboto Condensed',
+                                                                      color: Colors
+                                                                          .white,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontStyle:
+                                                                          FontStyle
+                                                                              .italic,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    16.0,
+                                                                    0.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: [
+                                                            const Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          16.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: Icon(
+                                                                Icons
+                                                                    .mail_outline_rounded,
+                                                                color: Colors
+                                                                    .white,
+                                                                size: 24.0,
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          8.0,
+                                                                          16.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: Text(
+                                                                '${widget.email},',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Roboto Condensed',
+                                                                      color: Colors
+                                                                          .white,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontStyle:
+                                                                          FontStyle
+                                                                              .italic,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                            Align(
+                                                              alignment:
+                                                                  const AlignmentDirectional(
+                                                                      0.0, 0.0),
+                                                              child: Padding(
+                                                                padding: const EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        16.0,
+                                                                        16.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                                child: Text(
+                                                                  widget
+                                                                      .position,
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Roboto Condensed',
+                                                                        color: Colors
+                                                                            .white,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontStyle:
+                                                                            FontStyle.italic,
+                                                                      ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    16.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            const Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          16.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: Icon(
+                                                                Icons
+                                                                    .location_city,
+                                                                color: Colors
+                                                                    .white,
+                                                                size: 24.0,
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          16.0,
+                                                                          0.0,
+                                                                          4.0,
+                                                                          0.0),
+                                                              child: Text(
+                                                                '${widget.city},${widget.state},${widget.country}',
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Roboto Condensed',
+                                                                      color: Colors
+                                                                          .white,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        children: [
+                                                          const Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        16.0,
+                                                                        16.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            child: Icon(
+                                                              Icons.business,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 24.0,
+                                                            ),
+                                                          ),
+                                                          Align(
+                                                            alignment:
+                                                                const AlignmentDirectional(
+                                                                    0.0, 0.0),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          16.0,
+                                                                          16.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: Text(
+                                                                widget
+                                                                    .expenditureorg,
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Roboto Condensed',
+                                                                      color: Colors
+                                                                          .white,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Row(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        children: [
+                                                          const Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        16.0,
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            child: Icon(
+                                                              Icons.event_note,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 24.0,
+                                                            ),
+                                                          ),
+                                                          Align(
+                                                            alignment:
+                                                                const AlignmentDirectional(
+                                                                    0.0, 0.0),
+                                                            child: Padding(
+                                                              padding:
+                                                                  const EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          16.0,
+                                                                          16.0,
+                                                                          0.0,
+                                                                          16.0),
+                                                              child: Text(
+                                                                widget.notes,
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Roboto Condensed',
+                                                                      color: Colors
+                                                                          .white,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+
+                                                  ),
                                                 ),
                                               ),
-                                            ],
+                                            ),
                                           ),
-                                        ),
-                                        Expanded(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                attendeeList[0]['Position'],
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium,
-                                              ),
-                                              Text(
-                                               attendeeList[0]['ExpenditureOrg'],
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
+
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 if (FFAppState().isLoading == true)
                   Align(
