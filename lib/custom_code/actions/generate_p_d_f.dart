@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-import 'index.dart'; // Imports other custom actions
+import 'package:flutter/services.dart';
+
+import 'package:appcenter_sdk_flutter/appcenter_sdk_flutter.dart';
 
 // Imports other custom actions
 
@@ -25,14 +27,12 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:file_picker/file_picker.dart';
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter_email_sender/flutter_email_sender.dart';
-import 'package:path_provider/path_provider.dart';
 
 List<String> attachments = [];
 Future<String> generateUniqueFilename(String baseFilename) async {
-  final directory = await getStorageDirectory(); // Using the common function
+  final directory = await getStorageDirectory();
 
   if (directory != null) {
     throw Exception('Failed to get storage directory');
@@ -67,6 +67,8 @@ Future<String?> getStorageDirectory() async {
 Future<String?> generatePDF() async {
   final pdf = pw.Document();
   final database = await openDatabase('contacts.db');
+  final img = await rootBundle.load('assets/images/app_launcher_icon.png');
+  final imageBytes = img.buffer.asUint8List();
   final attendeeDetails = await database.rawQuery(
     '''
     SELECT * FROM Contacts WHERE isScanned = 'true'
@@ -82,9 +84,8 @@ Future<String?> generatePDF() async {
             pw.Column(
               crossAxisAlignment: pw.CrossAxisAlignment.start,
               children: [
+                pw.Image(pw.MemoryImage(imageBytes)),
                 pw.Text('${attendee['FirstName']} ${attendee['LastName']}'),
-                pw.Text('${attendee['Position']}'),
-                pw.Text('${attendee['State']}'),
                 pw.Divider(),
               ],
             )
@@ -121,8 +122,8 @@ Future<String?> generatePDF() async {
     if (await file.exists()) {
       final Email email = Email(
         body: 'Please find the attachment for all the attendee details',
-        subject: 'Attendee details',
-        recipients: ['kpbhuv@gmail.com'],
+        subject: 'Accelerate Connect 2024 Attendee Details',
+        recipients: [''],
         attachmentPaths: [filePath],
         isHTML: false,
       );

@@ -9,16 +9,12 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future<int> strToIntConversion(String? attendeeID) async {
-  if (attendeeID == null) {
-    return Future.error("attendeeID cannot be null");
-  }
+Future<bool> cancelAction(String? attendeeID) async {
+  final int parsedAttendeeID = int.tryParse(attendeeID!) ?? 0;
 
-  try {
-    int id = int.parse(attendeeID);
-    return id;
-  } catch (e) {
-    int unknown = 1;
-    return unknown;
+  if (parsedAttendeeID > 0) {
+    return false;
+  } else {
+    return true; // Check if attendeeID is greater than 0
   }
 }

@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
-        android:label="Accelerate"
+        android:label="Accelerate Connect"
         tools:replace="android:label"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true">
@@ -51,7 +51,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="accelerate" android:host="accelerate.com" />
+                <data android:scheme="accelerateconnect" android:host="accelerateconnect.com" />
             </intent-filter>
 
         </activity>
@@ -61,7 +61,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDCVz7eOb09MzB-e7muY7cnqmsAcQVQa3M"/>
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDhFw3jO4xIFYFZB5YkPlzHDGwQUv7ObIg"/>
 
 
     </application>

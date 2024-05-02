@@ -9,16 +9,16 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future<int> strToIntConversion(String? attendeeID) async {
-  if (attendeeID == null) {
-    return Future.error("attendeeID cannot be null");
-  }
+import 'package:url_launcher/url_launcher.dart';
 
-  try {
-    int id = int.parse(attendeeID);
-    return id;
-  } catch (e) {
-    int unknown = 1;
-    return unknown;
+Future launchGoogleMap(String? address) async {
+  // Add your function code here!
+  // Example address to open
+  String googleUrl = 'https://www.google.com/maps/search/?api=1&query=' +
+      'Hyatt Regency St. Louis At The Arch';
+  if (await canLaunch(googleUrl)) {
+    await launch(googleUrl);
+  } else {
+    throw 'Could not open the map.';
   }
 }

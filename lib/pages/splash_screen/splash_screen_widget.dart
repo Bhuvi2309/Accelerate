@@ -22,20 +22,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final animationsMap = {
-    'columnOnPageLoadAnimation': AnimationInfo(
-      trigger: AnimationTrigger.onPageLoad,
-      effects: [
-        FadeEffect(
-          curve: Curves.easeInOut,
-          delay: 250.ms,
-          duration: 1000.ms,
-          begin: 0.0,
-          end: 1.0,
-        ),
-      ],
-    ),
-  };
+  final animationsMap = <String, AnimationInfo>{};
 
   @override
   void initState() {
@@ -52,7 +39,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
       logFirebaseEvent('SplashScreen_navigate_to');
 
       context.goNamed(
-        'ContactScan',
+        'AddContact',
         extra: <String, dynamic>{
           kTransitionInfoKey: const TransitionInfo(
             hasTransition: true,
@@ -72,6 +59,21 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
         },
       );
     });
+
+    animationsMap.addAll({
+      'columnOnPageLoadAnimation': AnimationInfo(
+        trigger: AnimationTrigger.onPageLoad,
+        effectsBuilder: () => [
+          FadeEffect(
+            curve: Curves.easeInOut,
+            delay: 250.0.ms,
+            duration: 1000.0.ms,
+            begin: 0.0,
+            end: 1.0,
+          ),
+        ],
+      ),
+    });
   }
 
   @override
@@ -89,7 +91,7 @@ class _SplashScreenWidgetState extends State<SplashScreenWidget>
           : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: const Color(0xFFF8F8F8),
+        backgroundColor: FlutterFlowTheme.of(context).gray7,
         body: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,

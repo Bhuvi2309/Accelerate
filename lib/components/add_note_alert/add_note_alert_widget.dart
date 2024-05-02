@@ -11,10 +11,10 @@ export 'add_note_alert_model.dart';
 class AddNoteAlertWidget extends StatefulWidget {
   const AddNoteAlertWidget({
     super.key,
-    required this.attendeeId,
+    required this.attendeeID,
   });
 
-  final int? attendeeId;
+  final int? attendeeID;
 
   @override
   State<AddNoteAlertWidget> createState() => _AddNoteAlertWidgetState();
@@ -40,15 +40,15 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
       logFirebaseEvent('AddNoteAlert_backend_call');
       _model.attendeeId =
           await SQLiteManager.instance.selectContactsByAttendeeId(
-        attendeeID: widget.attendeeId!.toString(),
+        attendeeID: widget.attendeeID!.toString(),
       );
       logFirebaseEvent('AddNoteAlert_backend_call');
-      await SQLiteManager.instance.isScanned(
+      _model.isScanned = await SQLiteManager.instance.isScanned(
         isScanned: true,
       );
     });
 
-    _model.addNotesAlertInputController ??= TextEditingController();
+    _model.addNotesAlertInputTextController ??= TextEditingController();
     _model.addNotesAlertInputFocusNode ??= FocusNode();
   }
 
@@ -68,12 +68,12 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
         child: Container(
           width: 284.0,
           height: 332.0,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             boxShadow: [
               BoxShadow(
                 blurRadius: 4.0,
-                color: FlutterFlowTheme.of(context).primaryBackground,
-                offset: const Offset(
+                color: Colors.white,
+                offset: Offset(
                   0.0,
                   2.0,
                 ),
@@ -96,9 +96,9 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                       alignment: const AlignmentDirectional(-1.0, 1.0),
                       child: Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 0.0, 8.0),
+                            const EdgeInsetsDirectional.fromSTEB(16.0, 8.0, 0.0, 8.0),
                         child: Text(
-                          'Success!  You\'ve Added',
+                          'You\'ve Added',
                           style: FlutterFlowTheme.of(context)
                               .headlineMedium
                               .override(
@@ -110,41 +110,62 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                         ),
                       ),
                     ),
-                    Builder(
-                      builder: (context) {
-                        final sqliterow = _model.attendeeId?.toList() ?? [];
-                        return ListView.builder(
-                          padding: EdgeInsets.zero,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: sqliterow.length,
-                          itemBuilder: (context, sqliterowIndex) {
-                            final sqliterowItem = sqliterow[sqliterowIndex];
-                            return Align(
-                              alignment: const AlignmentDirectional(-1.0, 1.0),
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 0.0, 0.0, 8.0),
-                                child: Text(
-                                  '${valueOrDefault<String>(
-                                    sqliterowItem.firstName,
-                                    'firstname',
-                                  )} ${valueOrDefault<String>(
-                                    sqliterowItem.lastName,
-                                    'lastname',
-                                  )}',
-                                  style: FlutterFlowTheme.of(context)
-                                      .headlineMedium
-                                      .override(
-                                        fontFamily: 'Lato',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryBtnText,
-                                        letterSpacing: 0.0,
-                                      ),
+                    FutureBuilder<List<SelectContactsByAttendeeIdRow>>(
+                      future: SQLiteManager.instance.selectContactsByAttendeeId(
+                        attendeeID: widget.attendeeID!.toString(),
+                      ),
+                      builder: (context, snapshot) {
+                        // Customize what your widget looks like when it's loading.
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: SizedBox(
+                              width: 50.0,
+                              height: 50.0,
+                              child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  FlutterFlowTheme.of(context).primary,
                                 ),
                               ),
+                            ),
+                          );
+                        }
+                        final columnSelectContactsByAttendeeIdRowList =
+                            snapshot.data!;
+                        return Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: List.generate(
+                              columnSelectContactsByAttendeeIdRowList.length,
+                              (columnIndex) {
+                            final columnSelectContactsByAttendeeIdRow =
+                                columnSelectContactsByAttendeeIdRowList[
+                                    columnIndex];
+                            return ListView(
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              children: [
+                                Align(
+                                  alignment: const AlignmentDirectional(-1.0, 1.0),
+                                  child: Padding(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 0.0, 0.0, 8.0),
+                                    child: Text(
+                                      '${columnSelectContactsByAttendeeIdRow.firstName}${columnSelectContactsByAttendeeIdRow.lastName}',
+                                      style: FlutterFlowTheme.of(context)
+                                          .headlineMedium
+                                          .override(
+                                            fontFamily: 'Lato',
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryBtnText,
+                                            fontSize: 20.0,
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             );
-                          },
+                          }),
                         );
                       },
                     ),
@@ -153,70 +174,79 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 16.0),
-                child: TextFormField(
-                  controller: _model.addNotesAlertInputController,
-                  focusNode: _model.addNotesAlertInputFocusNode,
-                  autofocus: true,
-                  obscureText: false,
-                  decoration: InputDecoration(
-                    labelText: 'Add Notes',
-                    labelStyle:
-                        FlutterFlowTheme.of(context).labelMedium.override(
-                              fontFamily: 'Lato',
-                              letterSpacing: 0.0,
-                            ),
-                    hintStyle:
-                        FlutterFlowTheme.of(context).labelMedium.override(
-                              fontFamily: 'Lato',
-                              letterSpacing: 0.0,
-                            ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).primaryBackground,
-                        width: 1.0,
-                      ),
-                      borderRadius: BorderRadius.circular(2.0),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).primary,
-                        width: 1.0,
-                      ),
-                      borderRadius: BorderRadius.circular(2.0),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).error,
-                        width: 1.0,
-                      ),
-                      borderRadius: BorderRadius.circular(2.0),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).error,
-                        width: 1.0,
-                      ),
-                      borderRadius: BorderRadius.circular(2.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      color: Colors.white,
                     ),
                   ),
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Lato',
-                        color: FlutterFlowTheme.of(context).primary,
-                        letterSpacing: 0.0,
+                  child: TextFormField(
+                    controller: _model.addNotesAlertInputTextController,
+                    focusNode: _model.addNotesAlertInputFocusNode,
+                    autofocus: false,
+                    obscureText: false,
+                    decoration: InputDecoration(
+                      labelText: 'Add Notes',
+                      labelStyle:
+                          FlutterFlowTheme.of(context).labelMedium.override(
+                                fontFamily: 'Lato',
+                                letterSpacing: 0.0,
+                              ),
+                      alignLabelWithHint: true,
+                      hintStyle:
+                          FlutterFlowTheme.of(context).bodyMedium.override(
+                                fontFamily: 'Lato',
+                                color: Colors.white,
+                                letterSpacing: 0.0,
+                              ),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).primary,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(0.0),
                       ),
-                  maxLines: 4,
-                  minLines: null,
-                  validator: _model.addNotesAlertInputControllerValidator
-                      .asValidator(context),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).primary,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(0.0),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).error,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(0.0),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).error,
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.circular(0.0),
+                      ),
+                    ),
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          fontFamily: 'Lato',
+                          color: Colors.black,
+                          letterSpacing: 0.0,
+                        ),
+                    maxLines: 4,
+                    validator: _model.addNotesAlertInputTextControllerValidator
+                        .asValidator(context),
+                  ),
                 ),
               ),
-              Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(
-                    child: Padding(
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 16.0),
+                          const EdgeInsetsDirectional.fromSTEB(32.0, 0.0, 32.0, 8.0),
                       child: FFButtonWidget(
                         onPressed: () async {
                           logFirebaseEvent(
@@ -228,14 +258,19 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                               'add_notes_alert_save_notes_button_custom');
                           await actions.insertingRow(
                             valueOrDefault<String>(
-                              widget.attendeeId?.toString(),
+                              widget.attendeeID?.toString(),
                               'noteattendeeid',
                             ),
                             valueOrDefault<String>(
-                              _model.addNotesAlertInputController.text,
-                              'notenote',
+                              _model.addNotesAlertInputTextController.text,
+                              'note',
                             ),
                           );
+                          logFirebaseEvent(
+                              'add_notes_alert_save_notes_button_update');
+                          setState(() {
+                            FFAppState().hasScannedQR = true;
+                          });
                           logFirebaseEvent(
                               'add_notes_alert_save_notes_button_naviga');
 
@@ -243,14 +278,15 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                         },
                         text: 'Save Notes',
                         options: FFButtonOptions(
-                          width: double.infinity,
+                          width: MediaQuery.sizeOf(context).width * 0.4,
+                          height: MediaQuery.sizeOf(context).height * 0.05,
                           padding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 24.0, 0.0, 24.0),
+                              0.0, 8.0, 0.0, 8.0),
                           iconPadding: const EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).primary,
                           textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
+                              FlutterFlowTheme.of(context).titleMedium.override(
                                     fontFamily: 'Lato',
                                     color: Colors.white,
                                     letterSpacing: 0.0,
@@ -261,50 +297,57 @@ class _AddNoteAlertWidgetState extends State<AddNoteAlertWidget> {
                             color: Colors.transparent,
                             width: 1.0,
                           ),
-                          borderRadius: BorderRadius.circular(2.0),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Padding(
+                    Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 16.0),
+                          const EdgeInsetsDirectional.fromSTEB(32.0, 0.0, 32.0, 0.0),
                       child: FFButtonWidget(
                         onPressed: () async {
                           logFirebaseEvent(
-                              'ADD_NOTE_ALERT_add_notes_alert_scan_anot');
+                              'ADD_NOTE_ALERT_add_notes_alert_save_note');
                           logFirebaseEvent(
-                              'add_notes_alert_scan_another_button_navi');
+                              'add_notes_alert_save_notes_button_naviga');
 
-                          context.pushNamed('ContactScan');
+                          context.pushNamed(
+                            'AddContact',
+                            queryParameters: {
+                              'isInt': serializeParam(
+                                false,
+                                ParamType.bool,
+                              ),
+                            }.withoutNulls,
+                          );
                         },
                         text: 'Scan Next Badge',
                         options: FFButtonOptions(
-                          width: double.infinity,
+                          width: MediaQuery.sizeOf(context).width * 0.4,
+                          height: MediaQuery.sizeOf(context).height * 0.05,
                           padding: const EdgeInsetsDirectional.fromSTEB(
-                              8.0, 24.0, 8.0, 24.0),
+                              0.0, 8.0, 0.0, 8.0),
                           iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                              16.0, 0.0, 16.0, 0.0),
+                              0.0, 0.0, 0.0, 0.0),
                           color: Colors.black,
                           textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
+                              FlutterFlowTheme.of(context).titleMedium.override(
                                     fontFamily: 'Lato',
                                     color: Colors.white,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.bold,
                                   ),
-                          elevation: 2.0,
+                          elevation: 3.0,
                           borderSide: const BorderSide(
                             color: Colors.transparent,
                             width: 1.0,
                           ),
-                          borderRadius: BorderRadius.circular(2.0),
+                          borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),

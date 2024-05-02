@@ -30,10 +30,12 @@ Future insertingRow(String attendeeID, String note) async {
       await database.execute('''
         ALTER TABLE Contacts ADD COLUMN Notes TEXT
       ''');
+      print('isScanned testing');
     }
     if (!hasIsScannedColumn) {
       await database
           .execute('ALTER TABLE Contacts ADD COLUMN isScanned BOOLEAN');
+      print('isScanned column added if it didn\'t exist.');
     }
 
     // Insert the note value into the 'Notes' column
@@ -42,7 +44,7 @@ Future insertingRow(String attendeeID, String note) async {
     ''', [note, attendeeID]);
 
     print(
-        'Note added successfully! Rows updated: $result. isScanned column added if it didn\'t exist.');
+        'Note added successfully! Rows updated: $result. Notes column added if it didn\'t exist.');
   } catch (error) {
     print('Error adding note: $error');
   }

@@ -225,10 +225,12 @@ dynamic deserializeParam<T>(
             return IsScannedRow(data);
           case SearchContactsRow:
             return SearchContactsRow(data);
-          case Day1IternaryRow:
-            return Day1IternaryRow(data);
-          case Day2IternaryRow:
-            return Day2IternaryRow(data);
+          case ThursdayRow:
+            return ThursdayRow(data);
+          case FridayRow:
+            return FridayRow(data);
+          case SelectNameByAttendeeIDRow:
+            return SelectNameByAttendeeIDRow(data);
           default:
             return null;
         }

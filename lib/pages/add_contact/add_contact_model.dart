@@ -1,9 +1,9 @@
 import '/components/drawer_u_i/drawer_u_i_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import 'contact_scan_widget.dart' show ContactScanWidget;
+import 'add_contact_widget.dart' show AddContactWidget;
 import 'package:flutter/material.dart';
 
-class ContactScanModel extends FlutterFlowModel<ContactScanWidget> {
+class AddContactModel extends FlutterFlowModel<AddContactWidget> {
   ///  Local state fields for this page.
 
   bool? isInteger = false;
@@ -13,9 +13,9 @@ class ContactScanModel extends FlutterFlowModel<ContactScanWidget> {
   final unfocusNode = FocusNode();
   // Model for DrawerUI component.
   late DrawerUIModel drawerUIModel;
-  var attendeeID = '';
+  var scannedOutput = '';
   // Stores action output result for [Custom Action - validateAttendeeID] action in Button widget.
-  bool? validateAttendee;
+  bool? validateAttendeeCopy;
 
   @override
   void initState(BuildContext context) {

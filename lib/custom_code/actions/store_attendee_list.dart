@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-// import 'package:accelerate/app_state.dart';
-// import 'package:accelerate/backend/schema/structs/attendee_details_struct.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

@@ -9,6 +9,10 @@ class ItineraryModel extends FlutterFlowModel<ItineraryWidget> {
   final unfocusNode = FocusNode();
   // Model for DrawerUI component.
   late DrawerUIModel drawerUIModel;
+  // State field(s) for TabBar widget.
+  TabController? tabBarController;
+  int get tabBarCurrentIndex =>
+      tabBarController != null ? tabBarController!.index : 0;
 
   @override
   void initState(BuildContext context) {
@@ -19,5 +23,6 @@ class ItineraryModel extends FlutterFlowModel<ItineraryWidget> {
   void dispose() {
     unfocusNode.dispose();
     drawerUIModel.dispose();
+    tabBarController?.dispose();
   }
 }

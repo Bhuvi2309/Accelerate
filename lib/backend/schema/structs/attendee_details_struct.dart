@@ -7,7 +7,6 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class AttendeeDetailsStruct extends BaseStruct {
   AttendeeDetailsStruct({
-    String? attendeeId,
     String? firstName,
     String? lastName,
     String? position,
@@ -19,8 +18,8 @@ class AttendeeDetailsStruct extends BaseStruct {
     String? country,
     int? phoneNumber,
     String? notes,
-  })  : _attendeeId = attendeeId,
-        _firstName = firstName,
+    String? attendeeId,
+  })  : _firstName = firstName,
         _lastName = lastName,
         _position = position,
         _expenditureOrg = expenditureOrg,
@@ -30,13 +29,8 @@ class AttendeeDetailsStruct extends BaseStruct {
         _state = state,
         _country = country,
         _phoneNumber = phoneNumber,
-        _notes = notes;
-
-  // "attendeeId" field.
-  String? _attendeeId;
-  String get attendeeId => _attendeeId ?? '';
-  set attendeeId(String? val) => _attendeeId = val;
-  bool hasAttendeeId() => _attendeeId != null;
+        _notes = notes,
+        _attendeeId = attendeeId;
 
   // "FirstName" field.
   String? _firstName;
@@ -105,9 +99,14 @@ class AttendeeDetailsStruct extends BaseStruct {
   set notes(String? val) => _notes = val;
   bool hasNotes() => _notes != null;
 
+  // "attendeeId" field.
+  String? _attendeeId;
+  String get attendeeId => _attendeeId ?? '';
+  set attendeeId(String? val) => _attendeeId = val;
+  bool hasAttendeeId() => _attendeeId != null;
+
   static AttendeeDetailsStruct fromMap(Map<String, dynamic> data) =>
       AttendeeDetailsStruct(
-        attendeeId: data['attendeeId'] as String?,
         firstName: data['FirstName'] as String?,
         lastName: data['LastName'] as String?,
         position: data['Position'] as String?,
@@ -119,6 +118,7 @@ class AttendeeDetailsStruct extends BaseStruct {
         country: data['Country'] as String?,
         phoneNumber: castToType<int>(data['PhoneNumber']),
         notes: data['Notes'] as String?,
+        attendeeId: data['attendeeId'] as String?,
       );
 
   static AttendeeDetailsStruct? maybeFromMap(dynamic data) => data is Map
@@ -126,7 +126,6 @@ class AttendeeDetailsStruct extends BaseStruct {
       : null;
 
   Map<String, dynamic> toMap() => {
-        'attendeeId': _attendeeId,
         'FirstName': _firstName,
         'LastName': _lastName,
         'Position': _position,
@@ -138,14 +137,11 @@ class AttendeeDetailsStruct extends BaseStruct {
         'Country': _country,
         'PhoneNumber': _phoneNumber,
         'Notes': _notes,
+        'attendeeId': _attendeeId,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'attendeeId': serializeParam(
-          _attendeeId,
-          ParamType.String,
-        ),
         'FirstName': serializeParam(
           _firstName,
           ParamType.String,
@@ -190,15 +186,14 @@ class AttendeeDetailsStruct extends BaseStruct {
           _notes,
           ParamType.String,
         ),
+        'attendeeId': serializeParam(
+          _attendeeId,
+          ParamType.String,
+        ),
       }.withoutNulls;
 
   static AttendeeDetailsStruct fromSerializableMap(Map<String, dynamic> data) =>
       AttendeeDetailsStruct(
-        attendeeId: deserializeParam(
-          data['attendeeId'],
-          ParamType.String,
-          false,
-        ),
         firstName: deserializeParam(
           data['FirstName'],
           ParamType.String,
@@ -254,6 +249,11 @@ class AttendeeDetailsStruct extends BaseStruct {
           ParamType.String,
           false,
         ),
+        attendeeId: deserializeParam(
+          data['attendeeId'],
+          ParamType.String,
+          false,
+        ),
       );
 
   @override
@@ -262,7 +262,6 @@ class AttendeeDetailsStruct extends BaseStruct {
   @override
   bool operator ==(Object other) {
     return other is AttendeeDetailsStruct &&
-        attendeeId == other.attendeeId &&
         firstName == other.firstName &&
         lastName == other.lastName &&
         position == other.position &&
@@ -273,12 +272,12 @@ class AttendeeDetailsStruct extends BaseStruct {
         state == other.state &&
         country == other.country &&
         phoneNumber == other.phoneNumber &&
-        notes == other.notes;
+        notes == other.notes &&
+        attendeeId == other.attendeeId;
   }
 
   @override
   int get hashCode => const ListEquality().hash([
-        attendeeId,
         firstName,
         lastName,
         position,
@@ -289,12 +288,12 @@ class AttendeeDetailsStruct extends BaseStruct {
         state,
         country,
         phoneNumber,
-        notes
+        notes,
+        attendeeId
       ]);
 }
 
 AttendeeDetailsStruct createAttendeeDetailsStruct({
-  String? attendeeId,
   String? firstName,
   String? lastName,
   String? position,
@@ -306,9 +305,9 @@ AttendeeDetailsStruct createAttendeeDetailsStruct({
   String? country,
   int? phoneNumber,
   String? notes,
+  String? attendeeId,
 }) =>
     AttendeeDetailsStruct(
-      attendeeId: attendeeId,
       firstName: firstName,
       lastName: lastName,
       position: position,
@@ -320,4 +319,5 @@ AttendeeDetailsStruct createAttendeeDetailsStruct({
       country: country,
       phoneNumber: phoneNumber,
       notes: notes,
+      attendeeId: attendeeId,
     );

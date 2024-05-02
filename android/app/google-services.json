@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "524709420894",
-    "project_id": "accelerate-d0a77",
-    "storage_bucket": "accelerate-d0a77.appspot.com"
+    "project_number": "738572524315",
+    "project_id": "accelerate-conference-2024",
+    "storage_bucket": "accelerate-conference-2024.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:524709420894:android:dfc93870dbc4478ad5b9cf",
+        "mobilesdk_app_id": "1:738572524315:android:7b0be02c764b21664d91be",
         "android_client_info": {
           "package_name": "com.perficient.accelerate"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCCyuyw8-tcS_Gs0mlmbhq9Cs5PXZJjS3U"
+          "current_key": "AIzaSyAOmwXft-g8s0OXBcioAjIBDtAHrkrs0Bc"
         }
       ],
       "services": {

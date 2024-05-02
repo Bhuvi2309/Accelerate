@@ -8,11 +8,13 @@ class AddNoteAlertModel extends FlutterFlowModel<AddNoteAlertWidget> {
 
   // Stores action output result for [Backend Call - SQLite (Select contacts by AttendeeId)] action in AddNoteAlert widget.
   List<SelectContactsByAttendeeIdRow>? attendeeId;
+  // Stores action output result for [Backend Call - SQLite (isScanned)] action in AddNoteAlert widget.
+  List<IsScannedRow>? isScanned;
   // State field(s) for add_notes_alert_input widget.
   FocusNode? addNotesAlertInputFocusNode;
-  TextEditingController? addNotesAlertInputController;
+  TextEditingController? addNotesAlertInputTextController;
   String? Function(BuildContext, String?)?
-      addNotesAlertInputControllerValidator;
+      addNotesAlertInputTextControllerValidator;
 
   @override
   void initState(BuildContext context) {}
@@ -20,6 +22,6 @@ class AddNoteAlertModel extends FlutterFlowModel<AddNoteAlertWidget> {
   @override
   void dispose() {
     addNotesAlertInputFocusNode?.dispose();
-    addNotesAlertInputController?.dispose();
+    addNotesAlertInputTextController?.dispose();
   }
 }

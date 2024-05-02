@@ -3,8 +3,10 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'contact_info_model.dart';
 export 'contact_info_model.dart';
 
@@ -17,10 +19,11 @@ class ContactInfoWidget extends StatefulWidget {
     String? city,
     String? state,
     String? email,
-    this.country,
     String? generalmanager,
     String? expenditureorg,
     String? notes,
+    required this.country,
+    required this.vicePresident,
   })  : firstname = firstname ?? 'firstname',
         lastname = lastname ?? 'lastname',
         position = position ?? 'position',
@@ -37,10 +40,11 @@ class ContactInfoWidget extends StatefulWidget {
   final String city;
   final String state;
   final String email;
-  final String? country;
   final String generalmanager;
   final String expenditureorg;
   final String notes;
+  final String? country;
+  final String? vicePresident;
 
   @override
   State<ContactInfoWidget> createState() => _ContactInfoWidgetState();
@@ -76,7 +80,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
           : FocusScope.of(context).unfocus(),
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Colors.white,
+        backgroundColor: FlutterFlowTheme.of(context).gray7,
         drawer: Drawer(
           elevation: 16.0,
           child: wrapWithModel(
@@ -130,7 +134,15 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
               minWidth: double.infinity,
               minHeight: double.infinity,
             ),
-            decoration: const BoxDecoration(),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.contain,
+                alignment: const AlignmentDirectional(1.0, 0.0),
+                image: Image.asset(
+                  'assets/images/backgroundImage.png',
+                ).image,
+              ),
+            ),
             child: Stack(
               children: [
                 if (FFAppState().isLoading == false)
@@ -200,88 +212,122 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    16.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Row(
+                                                      Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        16.0,
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            child: Row(
                                                               mainAxisSize:
                                                                   MainAxisSize
                                                                       .max,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .start,
                                                               children: [
-                                                                const Icon(
-                                                                  Icons
-                                                                      .person_rounded,
-                                                                  color: Colors
-                                                                      .white,
-                                                                  size: 24.0,
-                                                                ),
-                                                                Padding(
-                                                                  padding: const EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          8.0,
+                                                                Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  children: [
+                                                                    const Icon(
+                                                                      Icons
+                                                                          .person_outlined,
+                                                                      color: Colors
+                                                                          .white,
+                                                                      size:
+                                                                          24.0,
+                                                                    ),
+                                                                    Padding(
+                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                          16.0,
                                                                           0.0,
                                                                           0.0,
                                                                           0.0),
-                                                                  child: Text(
-                                                                    widget
-                                                                        .firstname,
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Roboto Condensed',
-                                                                          color:
-                                                                              Colors.white,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                          fontStyle:
-                                                                              FontStyle.italic,
-                                                                        ),
-                                                                  ),
+                                                                      child:
+                                                                          Text(
+                                                                        widget
+                                                                            .firstname,
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              fontFamily: 'Lato',
+                                                                              color: Colors.white,
+                                                                              fontSize: 20.0,
+                                                                              letterSpacing: 0.0,
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                              ],
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsetsDirectional
+                                                                Padding(
+                                                                  padding: const EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           4.0,
                                                                           0.0,
                                                                           0.0,
                                                                           0.0),
+                                                                  child: Text(
+                                                                    widget
+                                                                        .lastname,
+                                                                    style: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .override(
+                                                                          fontFamily:
+                                                                              'Lato',
+                                                                          color:
+                                                                              Colors.white,
+                                                                          fontSize:
+                                                                              20.0,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                        ),
+                                                                  ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    58.0,
+                                                                    8.0,
+                                                                    16.0,
+                                                                    0.0),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: [
+                                                            Align(
+                                                              alignment:
+                                                                  const AlignmentDirectional(
+                                                                      0.0, 0.0),
                                                               child: Text(
-                                                                widget.lastname,
+                                                                widget.position,
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
                                                                     .override(
                                                                       fontFamily:
-                                                                          'Roboto Condensed',
+                                                                          'Lato',
                                                                       color: Colors
                                                                           .white,
                                                                       letterSpacing:
                                                                           0.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontStyle:
-                                                                          FontStyle
-                                                                              .italic,
                                                                     ),
                                                               ),
                                                             ),
@@ -296,60 +342,48 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                                     0.0,
                                                                     0.0,
                                                                     0.0),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            const Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          16.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Icon(
-                                                                Icons
-                                                                    .mail_outline_rounded,
-                                                                color: Colors
-                                                                    .white,
-                                                                size: 24.0,
+                                                        child: InkWell(
+                                                          splashColor: Colors
+                                                              .transparent,
+                                                          focusColor: Colors
+                                                              .transparent,
+                                                          hoverColor: Colors
+                                                              .transparent,
+                                                          highlightColor: Colors
+                                                              .transparent,
+                                                          onTap: () async {
+                                                            logFirebaseEvent(
+                                                                'CONTACT_INFO_PAGE_Row_0rgmkuwy_ON_TAP');
+                                                            logFirebaseEvent(
+                                                                'Row_send_email');
+                                                            await launchUrl(Uri(
+                                                              scheme: 'mailto',
+                                                              path:
+                                                                  widget.email,
+                                                            ));
+                                                          },
+                                                          child: Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            children: [
+                                                              const Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            16.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .mail_outline_rounded,
+                                                                  color: Colors
+                                                                      .white,
+                                                                  size: 24.0,
+                                                                ),
                                                               ),
-                                                            ),
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          8.0,
-                                                                          16.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Text(
-                                                                '${widget.email},',
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Roboto Condensed',
-                                                                      color: Colors
-                                                                          .white,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontStyle:
-                                                                          FontStyle
-                                                                              .italic,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                            Align(
-                                                              alignment:
-                                                                  const AlignmentDirectional(
-                                                                      0.0, 0.0),
-                                                              child: Padding(
+                                                              Padding(
                                                                 padding: const EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         16.0,
@@ -357,25 +391,25 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                                         0.0,
                                                                         0.0),
                                                                 child: Text(
-                                                                  widget
-                                                                      .position,
+                                                                  widget.email,
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .center,
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMedium
                                                                       .override(
                                                                         fontFamily:
-                                                                            'Roboto Condensed',
+                                                                            'Lato',
                                                                         color: Colors
                                                                             .white,
                                                                         letterSpacing:
                                                                             0.0,
-                                                                        fontStyle:
-                                                                            FontStyle.italic,
                                                                       ),
                                                                 ),
                                                               ),
-                                                            ),
-                                                          ],
+                                                            ],
+                                                          ),
                                                         ),
                                                       ),
                                                       Padding(
@@ -418,13 +452,13 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                                           4.0,
                                                                           0.0),
                                                               child: Text(
-                                                                '${widget.city},${widget.state},${widget.country}',
+                                                                '${widget.city},${widget.state}',
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
                                                                     .override(
                                                                       fontFamily:
-                                                                          'Roboto Condensed',
+                                                                          'Lato',
                                                                       color: Colors
                                                                           .white,
                                                                       letterSpacing:
@@ -474,7 +508,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                                     .bodyMedium
                                                                     .override(
                                                                       fontFamily:
-                                                                          'Roboto Condensed',
+                                                                          'Lato',
                                                                       color: Colors
                                                                           .white,
                                                                       letterSpacing:
@@ -523,7 +557,7 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                                                                     .bodyMedium
                                                                     .override(
                                                                       fontFamily:
-                                                                          'Roboto Condensed',
+                                                                          'Lato',
                                                                       color: Colors
                                                                           .white,
                                                                       letterSpacing:
@@ -573,6 +607,36 @@ class _ContactInfoWidgetState extends State<ContactInfoWidget> {
                       ),
                     ),
                   ),
+                Align(
+                  alignment: const AlignmentDirectional(0.0, 0.0),
+                  child: Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 450.0, 0.0, 0.0),
+                    child: Container(
+                      width: MediaQuery.sizeOf(context).width * 0.85,
+                      height: MediaQuery.sizeOf(context).height * 0.4,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).gray7,
+                      ),
+                      child: Align(
+                        alignment: const AlignmentDirectional(0.0, 0.0),
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              0.0, 80.0, 0.0, 0.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: SvgPicture.asset(
+                              'assets/images/2024_Accelerate_Horizontal_On-Light.svg',
+                              width: MediaQuery.sizeOf(context).width * 1.0,
+                              height: 147.0,
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

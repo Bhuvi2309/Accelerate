@@ -53,12 +53,20 @@ class SQLiteManager {
         searchQuery: searchQuery,
       );
 
-  Future<List<Day1IternaryRow>> day1Iternary() => performDay1Iternary(
+  Future<List<ThursdayRow>> thursday() => performThursday(
         _database,
       );
 
-  Future<List<Day2IternaryRow>> day2Iternary() => performDay2Iternary(
+  Future<List<FridayRow>> friday() => performFriday(
         _database,
+      );
+
+  Future<List<SelectNameByAttendeeIDRow>> selectNameByAttendeeID({
+    String? attendeeID,
+  }) =>
+      performSelectNameByAttendeeID(
+        _database,
+        attendeeID: attendeeID,
       );
 
   /// END READ QUERY CALLS

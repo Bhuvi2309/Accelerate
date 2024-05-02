@@ -4,18 +4,18 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'hotel_map_model.dart';
-export 'hotel_map_model.dart';
+import 'local_area_map_model.dart';
+export 'local_area_map_model.dart';
 
-class HotelMapWidget extends StatefulWidget {
-  const HotelMapWidget({super.key});
+class LocalAreaMapWidget extends StatefulWidget {
+  const LocalAreaMapWidget({super.key});
 
   @override
-  State<HotelMapWidget> createState() => _HotelMapWidgetState();
+  State<LocalAreaMapWidget> createState() => _LocalAreaMapWidgetState();
 }
 
-class _HotelMapWidgetState extends State<HotelMapWidget> {
-  late HotelMapModel _model;
+class _LocalAreaMapWidgetState extends State<LocalAreaMapWidget> {
+  late LocalAreaMapModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   LatLng? currentUserLocationValue;
@@ -23,9 +23,10 @@ class _HotelMapWidgetState extends State<HotelMapWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => HotelMapModel());
+    _model = createModel(context, () => LocalAreaMapModel());
 
-    logFirebaseEvent('screen_view', parameters: {'screen_name': 'HotelMap'});
+    logFirebaseEvent('screen_view',
+        parameters: {'screen_name': 'LocalAreaMap'});
     getCurrentUserLocation(defaultLocation: const LatLng(0.0, 0.0), cached: true)
         .then((loc) => setState(() => currentUserLocationValue = loc));
   }
@@ -63,7 +64,7 @@ class _HotelMapWidgetState extends State<HotelMapWidget> {
       child: Scaffold(
         key: scaffoldKey,
         resizeToAvoidBottomInset: false,
-        backgroundColor: Colors.white,
+        backgroundColor: FlutterFlowTheme.of(context).gray7,
         drawer: Drawer(
           elevation: 16.0,
           child: wrapWithModel(
@@ -87,7 +88,7 @@ class _HotelMapWidgetState extends State<HotelMapWidget> {
               size: 24.0,
             ),
             onPressed: () async {
-              logFirebaseEvent('HOTEL_MAP_PAGE_menu_sharp_ICN_ON_TAP');
+              logFirebaseEvent('LOCAL_AREA_MAP_menu_sharp_ICN_ON_TAP');
               logFirebaseEvent('IconButton_drawer');
               scaffoldKey.currentState!.openDrawer();
               logFirebaseEvent('IconButton_google_analytics_event');
@@ -120,7 +121,7 @@ class _HotelMapWidgetState extends State<HotelMapWidget> {
                     controller: _model.googleMapsController,
                     onCameraIdle: (latLng) => _model.googleMapsCenter = latLng,
                     initialLocation: _model.googleMapsCenter ??=
-                        const LatLng(13.106061, -59.613158),
+                        const LatLng(40.05841301233466, -75.67955292969312),
                     markers: [
                       if (googleMapMarker != null)
                         FlutterFlowMarker(
@@ -128,23 +129,23 @@ class _HotelMapWidgetState extends State<HotelMapWidget> {
                           googleMapMarker,
                           () async {
                             logFirebaseEvent(
-                                'HOTEL_MAP_GoogleMap_5ap9sryr_ON_MARKER_T');
+                                'LOCAL_AREA_MAP_GoogleMap_bt0trsqn_ON_MAR');
                             logFirebaseEvent('GoogleMap_launch_map');
                             await launchMap(
-                              address: '310 vineyard lane',
-                              title: 'Hotel Address',
+                              address: 'HYATT REGENCY ST. LOUIS AT THE ARCH',
+                              title: 'Hotel map',
                             );
                           },
                         ),
                     ],
-                    markerColor: GoogleMarkerColor.violet,
+                    markerColor: GoogleMarkerColor.blue,
                     mapType: MapType.normal,
                     style: GoogleMapStyle.standard,
                     initialZoom: 14.0,
                     allowInteraction: true,
                     allowZoom: true,
                     showZoomControls: true,
-                    showLocation: true,
+                    showLocation: false,
                     showCompass: false,
                     showMapToolbar: false,
                     showTraffic: false,

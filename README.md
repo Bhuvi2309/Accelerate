@@ -1,4 +1,4 @@
-# Accelerate
+# Accelerate Connect
 
 A new Flutter project.
 

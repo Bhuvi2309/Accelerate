@@ -56,7 +56,7 @@ class FFAppState extends ChangeNotifier {
 
   List<AttendeeDetailsStruct> _attendeeList = [
     AttendeeDetailsStruct.fromSerializableMap(jsonDecode(
-        '{\"attendeeId\":\"Hello World\",\"FirstName\":\"Hello World\",\"LastName\":\"fsdfsdf\",\"Position\":\"Hello World\",\"ExpenditureOrg\":\"vxcvxcvxc\",\"GeneralManager\":\"Hello World\",\"EmployeeEmail\":\"Hello World\",\"City\":\"Hello World\",\"State\":\"Hello World\",\"Country\":\"Hello World\",\"PhoneNumber\":\"0\",\"Notes\":\"Hello World\"}'))
+        '{\"FirstName\":\"Hello World\",\"LastName\":\"fsdfsdf\",\"Position\":\"Hello World\",\"ExpenditureOrg\":\"vxcvxcvxc\",\"GeneralManager\":\"Hello World\",\"EmployeeEmail\":\"Hello World\",\"City\":\"Hello World\",\"State\":\"Hello World\",\"Country\":\"Hello World\",\"PhoneNumber\":\"0\",\"Notes\":\"Hello World\"}'))
   ];
   List<AttendeeDetailsStruct> get attendeeList => _attendeeList;
   set attendeeList(List<AttendeeDetailsStruct> value) {
@@ -200,6 +200,50 @@ class FFAppState extends ChangeNotifier {
   void insertAtIndexInConference(int index, String value) {
     _Conference.insert(index, value);
     secureStorage.setStringList('ff_Conference', _Conference);
+  }
+
+  List<LatLng> _Locations = [
+    const LatLng(35.929673, -78.948237),
+    const LatLng(38.88951, -77.032),
+    const LatLng(0, 0),
+    const LatLng(36.37945, -75.83029),
+    const LatLng(0, 0),
+    const LatLng(0, 0),
+    const LatLng(35.929673, 0),
+    const LatLng(0, 0)
+  ];
+  List<LatLng> get Locations => _Locations;
+  set Locations(List<LatLng> value) {
+    _Locations = value;
+  }
+
+  void addToLocations(LatLng value) {
+    _Locations.add(value);
+  }
+
+  void removeFromLocations(LatLng value) {
+    _Locations.remove(value);
+  }
+
+  void removeAtIndexFromLocations(int index) {
+    _Locations.removeAt(index);
+  }
+
+  void updateLocationsAtIndex(
+    int index,
+    LatLng Function(LatLng) updateFn,
+  ) {
+    _Locations[index] = updateFn(_Locations[index]);
+  }
+
+  void insertAtIndexInLocations(int index, LatLng value) {
+    _Locations.insert(index, value);
+  }
+
+  bool _hasScannedQR = false;
+  bool get hasScannedQR => _hasScannedQR;
+  set hasScannedQR(bool value) {
+    _hasScannedQR = value;
   }
 }
 

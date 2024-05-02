@@ -40,24 +40,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, _) => const SplashScreenWidget(),
         ),
         FFRoute(
-          name: 'HotelMap',
-          path: '/hotelMap',
-          builder: (context, params) => const HotelMapWidget(),
+          name: 'LocalAreaMap',
+          path: '/localAreaMap',
+          builder: (context, params) => const LocalAreaMapWidget(),
         ),
         FFRoute(
-          name: 'ShowRoomMap',
-          path: '/showRoomMap',
-          builder: (context, params) => const ShowRoomMapWidget(),
+          name: 'FloorPlan',
+          path: '/floorPlan',
+          builder: (context, params) => const FloorPlanWidget(),
         ),
         FFRoute(
-          name: 'Itinerary',
-          path: '/itinerary',
-          builder: (context, params) => const ItineraryWidget(),
-        ),
-        FFRoute(
-          name: 'ContactScan',
-          path: '/contactScan',
-          builder: (context, params) => ContactScanWidget(
+          name: 'AddContact',
+          path: '/addContact',
+          builder: (context, params) => AddContactWidget(
             isInt: params.getParam(
               'isInt',
               ParamType.bool,
@@ -97,10 +92,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               'email',
               ParamType.String,
             ),
-            country: params.getParam(
-              'country',
-              ParamType.String,
-            ),
             generalmanager: params.getParam(
               'generalmanager',
               ParamType.String,
@@ -113,6 +104,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               'notes',
               ParamType.String,
             ),
+            country: params.getParam(
+              'country',
+              ParamType.String,
+            ),
+            vicePresident: params.getParam(
+              'vicePresident',
+              ParamType.String,
+            ),
           ),
         ),
         FFRoute(
@@ -121,9 +120,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => const ContactsListWidget(),
         ),
         FFRoute(
-          name: 'Schedule',
-          path: '/schedule',
-          builder: (context, params) => const ScheduleWidget(),
+          name: 'Itinerary',
+          path: '/itinerary',
+          builder: (context, params) => const ItineraryWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -153,7 +152,7 @@ extension _GoRouterStateExtensions on GoRouterState {
       extra != null ? extra as Map<String, dynamic> : {};
   Map<String, dynamic> get allParams => <String, dynamic>{}
     ..addAll(pathParameters)
-    ..addAll(queryParameters)
+    ..addAll(uri.queryParameters)
     ..addAll(extraMap);
   TransitionInfo get transitionInfo => extraMap.containsKey(kTransitionInfoKey)
       ? extraMap[kTransitionInfoKey] as TransitionInfo
@@ -300,7 +299,7 @@ class RootPageContext {
   static bool isInactiveRootPage(BuildContext context) {
     final rootPageContext = context.read<RootPageContext?>();
     final isRootPage = rootPageContext?.isRootPage ?? false;
-    final location = GoRouter.of(context).location;
+    final location = GoRouterState.of(context).uri.toString();
     return isRootPage &&
         location != '/' &&
         location != rootPageContext?.errorRoute;
